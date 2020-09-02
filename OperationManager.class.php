@@ -11,10 +11,16 @@ class OperationManager
     }
 
     public static function addOperation(Operation $operation){
+
+
+  /* $dbi = Singleton::getInstance()->getConnection();
+        $resultat = $dbi->query("SELECT * FROM operation");
+    $arr = $resultat->fetchall();
+    var_dump($arr);*/
         $dbi = Singleton::getInstance()->getConnection();
-        $resultat = $dbi->prepare("Insert into Operation (Id_Operation, Description, Status) values (1,
+        $resultat = $dbi->prepare("Insert into operation (Id_Operation, Description, Status) values (1,
             , 'blabla', 'en cours')");
-        $arr = $resultat->fetchall();
+        $arr = $resultat->fetchall(PDO::Id_Operation);
         var_dump($arr);
 
      //creer l'objet Operation
