@@ -1,5 +1,5 @@
 <?php
-
+include_once "Singleton.class.php";
 
 class OperationManager
 {
@@ -10,27 +10,24 @@ class OperationManager
 
     }
 
-    /**Ajoute une opération
-     * @param $startDate
-     * @param $endDate
-     * @param $description
-     * @param $type
-     */
-
-
-    public function addOperation($startDate,$endDate, $description, $type ){
+    public static function addOperation(Operation $operation){
+        $dbi = Singleton::getInstance()->getConnection();
+        $resultat = $dbi->prepare("Insert into Operation (Id_Operation, Description, Status) values (1,
+            , 'blabla', 'en cours')");
+        $arr = $resultat->fetchall();
+        var_dump($arr);
 
      //creer l'objet Operation
-
+        // Creer l'objet Customer
     // faire requete sql
     // Recuperer le type
-    //  ajouter à la bdd l'objet operation
+    //  Ajouter à la bdd l'objet operation
 
     }
 
-    public function randomOperation(){
 
-    }
+
+
 
 
 

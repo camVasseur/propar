@@ -11,7 +11,7 @@ class Operation
     private $status = "" ; //String
     private $type; //
 
-public function __construct($startDate, $endDate,$type, $description){
+public function __construct(DateTime $startDate, DateTime $endDate,$type, $description){
     $this->startDate = $startDate;
     $this->endDate = $endDate;
     $this->description = $description;
