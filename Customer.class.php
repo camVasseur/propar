@@ -1,5 +1,5 @@
 <?php
-
+include "Personn.class.php";
 
 class Customer extends  Personn
 {
@@ -8,10 +8,10 @@ class Customer extends  Personn
     private $birthday;
     private $adress;
 
-    public function __construct($name,$surname, DateTime $birthday , $adress)
+    public function __construct($name,$surname, DateTime $birthday , $address)
     {
         $this->birthday = $birthday;
-        $this->adress = $adress;
+        $this->address = $address;
         Customer::$count = Customer::$count + 1;
         $this->idCustomer = Customer::$count;
         parent::__construct($name, $surname);
@@ -71,17 +71,17 @@ class Customer extends  Personn
     /**
      * @return mixed
      */
-    public function getAdress()
+    public function getAddress()
     {
-        return $this->adress;
+        return $this->address;
     }
 
     /**
-     * @param mixed $adress
+     * @param mixed $address
      */
-    public function setAdress($adress)
+    public function setAddress($address)
     {
-        $this->adress = $adress;
+        $this->adress = $address;
     }
 
 

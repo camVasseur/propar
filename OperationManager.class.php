@@ -10,19 +10,27 @@ class OperationManager
 
     }
 
-    public static function addOperation(Operation $operation){
+    /** Ajoute une operation
+     * @param Operation $operation
+     * @param Customer $customer
+     */
+
+    public static function addOperation(Operation $operation, Customer $customer){
+
+        //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
-        $resultat = $dbi->prepare("Insert into Operation (Id_Operation, Description, Status) values (1,
-            , 'blabla', 'en cours')");
-        $arr = $resultat->fetchall();
-        var_dump($arr);
-
-     //creer l'objet Operation
-        // Creer l'objet Customer
-    // faire requete sql
-    // Recuperer le type
-    //  Ajouter à la bdd l'objet operation
-
+        $req = $dbi->prepare('INSERT INTO `operation` (`Id_Operation`, `StartDate`, `EndDate`, `Description`
+        , `Status`, `id_Operation_Type`, `id_Customer`, `login`) VALUES (:id, :startDate, :endDate, :des, :status, :operationTypeId, :customerId, :login)');
+        $req->execute(array(
+            'id' => $operation->getIdOperation(),
+            'startDate' => $operation->getStartDate()->format("Y-m-d"),
+            'endDate' => $operation->getEndDate()->format("Y-m-d"),
+            'des' => $operation->getDescription(),
+            'status' => $operation->getStatus(),
+            'operationTypeId' => $operation->getType()->getIdType(),
+            'customerId' => $customer->getIdCustomer(),
+            'login' => //$login
+        ));
     }
 
 
