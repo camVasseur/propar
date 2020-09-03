@@ -3,8 +3,7 @@ include "Personn.class.php";
 
 class Customer extends  Personn
 {
-    private $idCustomer;
-    private static $count=20;
+
     private $birthday;
     private $address;
 
@@ -12,8 +11,7 @@ class Customer extends  Personn
     {
         $this->birthday = $birthday;
         $this->address = $address;
-        Customer::$count = Customer::$count + 1;
-        $this->idCustomer = Customer::$count;
+
         parent::__construct($name, $surname);
             $this->name = $name;
             $this->surname = $surname;

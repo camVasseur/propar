@@ -3,8 +3,6 @@ include_once "Singleton.class.php";
 
 class OperationManager
 {
-
-
     public function __construct()
     {
 
@@ -15,7 +13,17 @@ class OperationManager
      * @param Customer $customer
      */
     public static function addOperation(Operation $operation, Customer $customer){
+        $worker = self::getNextAvailableWorker();
+        if($worker == NULL){
+            return "Tous les workers sont occupés";
+        }
 
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi -> query("select count(id_Customer) from customer");
+        $count = $req->fetchColumn();
+        $customer->setIdCustomer($count +1);
+
+        self::addCustomer($customer);
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi->prepare('INSERT INTO `operation` (`Id_Operation`, `StartDate`, `EndDate`, `Description`
@@ -26,16 +34,18 @@ class OperationManager
             'endDate' => $operation->getEndDate()->format("Y-m-d"),
             'des' => $operation->getDescription(),
             'status' => $operation->getStatus(),
-            'operationTypeId' => $operation->getType()->getIdType(),
+            'operationTypeId' => strval($operation->getType()),
             'customerId' => $customer->getIdCustomer(),
-            'login' => 1//$login
+            'login' => strval($worker)
         ));
+        return "opération ajoutée";
     }
 
     /** Ajoute un Customer à la Bdd
      * @param Customer $customer
      */
     public static function addCustomer(Customer $customer){
+
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi -> prepare('INSERT INTO `customer` (`id_Customer`, `name`, `surname`, `birthday`, `adress`) 
         VALUES (:id, :nam , :surname, :birthday, :address)');
@@ -78,73 +88,26 @@ class OperationManager
         var_dump($arr);
     }
 
-    /**Methode qui compte le nombre d'opération en fonction du worker
-     * @param $login
-     *
-     */
-    public static function numberOperationByWorker($login){
-        //$login = $_SESSION["login"];
-        $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> prepare("select login from operation where login= :log");
-        $req-> execute(array(
-            'log' => $login
-        ));
-        $arr = $req -> rowCount();
-        //var_dump($arr);
-    }
+    public static function getNextAvailableWorker(){
 
-    /**Methode privée qui tire au sort aléatoirement un worker
-     * @return int
-     */
-   public static function randomOperation(){
-        //determination du nombre de worker
-        $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> query("select count(login) from worker");
-        $req = $req->fetchColumn();
+       $dbi = Singleton::getInstance()->getConnection();
+       $req = $dbi -> query("SELECT worker.login, count(operation.login) as nombre_worker, role 
+                                            from worker left join operation on operation.login= worker.login 
+                                            group by login, role");
+       $res = $req->fetchAll();
+       if(isset($res)){
+           $logins=array();
+           foreach($res as $worker){
+               if(($worker[2] == "Senior" and $worker[1]<3) or ($worker[2] == "Expert" and $worker[1]<5) or ($worker[2] == "Apprenti" and $worker[1]<1)){
+                    array_push($logins, $worker[0]);
+               }
+           }
+           if(isset($logins)){
 
-        //tire au sort un Worker
-        return rand(1,$req);
-    }
-
-    /**methode qui remplace le login par le role du worker
-     * return un un array
-     */
-    public static function loginReplaceByRole($login){
-        $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> prepare("select Role from worker where login = :log");
-        $req ->execute(array(
-            'log'=>$login
-        ));
-        $arr = $req -> fetchAll();
-        return $arr;
-    }
-
-    public static function attrubuteOperation($role, $operationNumber){
-
-        // Si worker est apprenti et operation < 1
-         if $role ==    
-        // Si worker est senior et operation < 3
-        // Si worker est Expert et operation <5
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+               $random = rand(0, (count($logins)-1));
+               return $logins[$random];
+           }
+       }
+       return NULL;
+    } 
 }
