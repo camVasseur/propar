@@ -14,7 +14,6 @@ class OperationManager
      * @param Operation $operation
      * @param Customer $customer
      */
-
     public static function addOperation(Operation $operation, Customer $customer){
 
         //$login = $_SESSION["login"];
@@ -33,10 +32,10 @@ class OperationManager
         ));
     }
 
+
     /** Ajoute un Customer à la Bdd
      * @param Customer $customer
      */
-
     public static function addCustomer(Customer $customer){
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi -> prepare('INSERT INTO `customer` (`id_Customer`, `name`, `surname`, `birthday`, `adress`) 
@@ -53,7 +52,6 @@ class OperationManager
     /** Supprime une opération par l'id de l'opération
      * @param Operation $operation
      */
-
     public static function finishOperationByIdOperation(Operation $operation){
        $dbi = Singleton::getInstance()->getConnection();
        $req = $dbi -> prepare("DELETE FROM operation WHERE Id_Operation = :idOperation");
@@ -70,7 +68,6 @@ class OperationManager
     /** fonction qui retourne un array des opérations qui sont en cours par login
      * @param $login
      */
-
     public static function operationInProgressByIdWorker($login){
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
@@ -82,9 +79,26 @@ class OperationManager
         var_dump($arr);
     }
 
-    public static function numberOperationByworker(Worker $worker){
-
+    /**Methode qui compte le nombre d'opération en fonction du worker
+     * @param $login
+     *
+     */
+    public static function numberOperationByWorker($login){
+        //$login = $_SESSION["login"];
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi -> prepare("select count(login) from operation where login= :log");
+        $req-> execute(array(
+            'log' => $login
+        ));
+        //$arr = $req -> fetchAll();
+        //var_dump($arr);
     }
+
+    public static function ramdomOperation(){
+        
+    }
+
+
 
 
 

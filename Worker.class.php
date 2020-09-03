@@ -8,6 +8,7 @@ class Worker extends Personn
     private $role; //string
     private $password; //
 
+
     public function __construct($name, $surname, $role)
     {
         parent::__construct($name, $surname);
