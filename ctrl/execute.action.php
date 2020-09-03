@@ -30,3 +30,4 @@ var_dump($arr);
 //OperationManager::addOperation($operation, $customer);
 //OperationManager::finishOperationByIdOperation($operation);
 //echo OperationManager::randomOperation();
+print_r(OperationManager::loginReplaceByRole(2));

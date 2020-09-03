@@ -93,10 +93,10 @@ class OperationManager
         //var_dump($arr);
     }
 
-    /**Methode qui tire au sort aléatoirement un worker
+    /**Methode privée qui tire au sort aléatoirement un worker
      * @return int
      */
-    public static function randomOperation(){
+   public static function randomOperation(){
         //determination du nombre de worker
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi -> query("select count(login) from worker");
@@ -106,8 +106,23 @@ class OperationManager
         return rand(1,$req);
     }
 
-    public static function attrubuteOperation(){
+    /**methode qui remplace le login par le role du worker
+     * return un un array
+     */
+    public static function loginReplaceByRole($login){
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi -> prepare("select Role from worker where login = :log");
+        $req ->execute(array(
+            'log'=>$login
+        ));
+        $arr = $req -> fetchAll();
+        return $arr;
+    }
+
+    public static function attrubuteOperation($role, $operationNumber){
+
         // Si worker est apprenti et operation < 1
+         if $role ==    
         // Si worker est senior et operation < 3
         // Si worker est Expert et operation <5
     }
