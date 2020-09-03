@@ -14,11 +14,12 @@ var_dump($arr);
 
 
  // test creation de l'objet Operation
-$startDate = new DateTime('2020-08-01');
-$endDate = new DateTime('2020-09-01');
-$description = "blabla";
+//$startDate = new DateTime('2020-08-01');
+//$endDate = new DateTime('2020-09-01');
+//$description = "blabla";
 $birthday =new DateTime('1990-09-01');
-$operation = new Operation($startDate, $endDate,new OperationType("enorme", 15000000),$description );
-$customer = new Customer("titi", "toto",$birthday ,"20 rue des Lilas");
+//$operation = new Operation($startDate, $endDate,new OperationType("enorme", 15000000),$description );
+$customer = new Customer("tata", "tutu",$birthday ,"20 rue des acacias");
 
-OperationManager::addOperation($operation, $customer);
+OperationManager::addCustomer($customer);
+//OperationManager::addOperation($operation, $customer);

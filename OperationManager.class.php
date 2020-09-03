@@ -33,6 +33,19 @@ class OperationManager
         ));
     }
 
+    public static function addCustomer(Customer $customer){
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi -> prepare('INSERT INTO `customer` (`id_Customer`, `name`, `surname`, `birthday`, `adress`) 
+        VALUES (:id, :nam , :surname, :birthday, :address)');
+        $req->execute(array(
+            'id'=> $customer->getIdCustomer(),
+            'nam' => $customer->getName(),
+            'surname' => $customer->getSurname(),
+            'birthday' => $customer->getBirthday()->format("Y-m-d"),
+            'address' => $customer->getAddress()
+        ));
+    }
+
 
 
 

@@ -4,9 +4,9 @@ include "Personn.class.php";
 class Customer extends  Personn
 {
     private $idCustomer;
-    private static $count;
+    private static $count=20;
     private $birthday;
-    private $adress;
+    private $address;
 
     public function __construct($name,$surname, DateTime $birthday , $address)
     {
@@ -81,7 +81,7 @@ class Customer extends  Personn
      */
     public function setAddress($address)
     {
-        $this->adress = $address;
+        $this->address = $address;
     }
 
 
