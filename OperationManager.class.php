@@ -10,7 +10,7 @@ class OperationManager
 
     }
 
-    /** Ajoute une operation
+    /** Ajoute une operation à la Bdd
      * @param Operation $operation
      * @param Customer $customer
      */
@@ -33,6 +33,10 @@ class OperationManager
         ));
     }
 
+    /** Ajoute un Customer à la Bdd
+     * @param Customer $customer
+     */
+
     public static function addCustomer(Customer $customer){
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi -> prepare('INSERT INTO `customer` (`id_Customer`, `name`, `surname`, `birthday`, `adress`) 
@@ -45,6 +49,44 @@ class OperationManager
             'address' => $customer->getAddress()
         ));
     }
+
+    /** Supprime une opération par l'id de l'opération
+     * @param Operation $operation
+     */
+
+    public static function finishOperationByIdOperation(Operation $operation){
+       $dbi = Singleton::getInstance()->getConnection();
+       $req = $dbi -> prepare("DELETE FROM operation WHERE Id_Operation = :idOperation");
+       $req->execute(array(
+           'idOperation'=>$operation->getIdOperation()
+       ));
+    }
+    //toDo voir si c'est utile de faire cette fonction
+    /*public static function finishOperationByNameCustomer(Customer $customer){
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi -> prepare();
+    }*/
+
+    /** fonction qui retourne un array des opérations qui sont en cours par login
+     * @param $login
+     */
+
+    public static function operationInProgressByIdWorker($login){
+        //$login = $_SESSION["login"];
+        $dbi = Singleton::getInstance()->getConnection();
+        $req =$dbi -> prepare("select * from operation where login = :log  and Status = \"en cours\"");
+        $req->execute(array(
+            'log'=>$login
+        ));
+        $arr = $req -> fetchAll();
+        var_dump($arr);
+    }
+
+    public static function numberOperationByworker(Worker $worker){
+
+    }
+
+
 
 
 

@@ -5,6 +5,8 @@ include "../Operation.class.php";
 include "../OperationManager.class.php";
 include "../OperationType.class.php";
 include "../Customer.class.php";
+include "../Worker.class.php";
+
 /*
 $dbi = Singleton::getInstance()->getConnection();
 $resultat = $dbi->query("SELECT * FROM operationType ");
@@ -13,13 +15,17 @@ var_dump($arr);
 */
 
 
- // test creation de l'objet Operation
+// test creation de l'objet Operation
 //$startDate = new DateTime('2020-08-01');
 //$endDate = new DateTime('2020-09-01');
 //$description = "blabla";
-$birthday =new DateTime('1990-09-01');
+//$birthday =new DateTime('1990-09-01');
 //$operation = new Operation($startDate, $endDate,new OperationType("enorme", 15000000),$description );
-$customer = new Customer("tata", "tutu",$birthday ,"20 rue des acacias");
+//$customer = new Customer("tata", "tutu",$birthday ,"20 rue des acacias");
 
-OperationManager::addCustomer($customer);
+//$worker = new Worker("titi","toto", "expert" );
+OperationManager::operationInProgressByWorker(1);
+
+//OperationManager::addCustomer($customer);
 //OperationManager::addOperation($operation, $customer);
+//OperationManager::finishOperationByIdOperation($operation);
