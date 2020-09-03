@@ -25,7 +25,8 @@ var_dump($arr);
 
 //$worker = new Worker("titi","toto", "expert" );
 //OperationManager::operationInProgressByWorker(1);
-OperationManager::numberOperationByWorker(1);
+//OperationManager::numberOperationByWorker(1);
 //OperationManager::addCustomer($customer);
 //OperationManager::addOperation($operation, $customer);
 //OperationManager::finishOperationByIdOperation($operation);
+//echo OperationManager::randomOperation();

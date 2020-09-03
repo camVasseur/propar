@@ -32,7 +32,6 @@ class OperationManager
         ));
     }
 
-
     /** Ajoute un Customer à la Bdd
      * @param Customer $customer
      */
@@ -86,16 +85,31 @@ class OperationManager
     public static function numberOperationByWorker($login){
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> prepare("select count(login) from operation where login= :log");
+        $req = $dbi -> prepare("select login from operation where login= :log");
         $req-> execute(array(
             'log' => $login
         ));
-        //$arr = $req -> fetchAll();
+        $arr = $req -> rowCount();
         //var_dump($arr);
     }
 
-    public static function ramdomOperation(){
-        
+    /**Methode qui tire au sort aléatoirement un worker
+     * @return int
+     */
+    public static function randomOperation(){
+        //determination du nombre de worker
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi -> query("select count(login) from worker");
+        $req = $req->fetchColumn();
+
+        //tire au sort un Worker
+        return rand(1,$req);
+    }
+
+    public static function attrubuteOperation(){
+        // Si worker est apprenti et operation < 1
+        // Si worker est senior et operation < 3
+        // Si worker est Expert et operation <5
     }
 
 
