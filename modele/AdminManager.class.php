@@ -75,6 +75,8 @@ class AdminManager
         }
         return NULL;
 }
+    //public static function authentification($login, $password){
+    //}
 
 
 }
