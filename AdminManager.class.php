@@ -40,31 +40,38 @@ class AdminManager
         ));
     }
 
+    /**Calcul du Ca à partir d'un tableau de prix
+     * @return float|int
+     */
     public static function calculCA(){
-
-
+        $finishOperationPrice=self::getFinishOperationPrice();
+        $cA=0;
+        foreach($finishOperationPrice as $price){
+            $cA= array_sum($finishOperationPrice);
+        }
+        return $cA;
     }
 
     /** permet d'avoir un tableau de prix concernant les operations terminée
      * @return array|null
      */
-    public static function getFinishOperation(){
+    public static function getFinishOperationPrice(){
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi->query("select Id_Operation, Status,Prix 
                                         from operation, operationtype 
                                         where operationtype.Id_Operation_Type=operation.id_Operation_Type");
         $res = $req->fetchAll();
         if(isset($res)){
-            $finishOperation = array();
+            $finishOperationPrice = array();
             foreach($res as $operation){
                 if($operation[1] == "Finish"){
-                    array_push($finishOperation, $operation[2]);
+                    array_push($finishOperationPrice, $operation[2]);
                 }
             }
         }
-        if(isset($finishOperation)){
+        if(isset($finishOperationPrice)){
 
-            return $finishOperation;
+            return $finishOperationPrice;
         }
         return NULL;
 }
