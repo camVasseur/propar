@@ -17,17 +17,19 @@ class OperationManager
         if($worker == NULL){
             return "Tous les workers sont occupés";
         }
-
+        // on incremente le compteur du customer
         $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> query("select count(id_Customer) from customer");
+        $req = $dbi -> query("select count(id_Customer) 
+                                        from customer");
         $count = $req->fetchColumn();
         $customer->setIdCustomer($count +1);
-
+        //On ajoute un customer
         self::addCustomer($customer);
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi->prepare('INSERT INTO `operation` (`Id_Operation`, `StartDate`, `EndDate`, `Description`
-        , `Status`, `id_Operation_Type`, `id_Customer`, `login`) VALUES (:id, :startDate, :endDate, :des, :status, :operationTypeId, :customerId, :login)');
+                                        , `Status`, `id_Operation_Type`, `id_Customer`, `login`)    
+                                        VALUES (:id, :startDate, :endDate, :des, :status, :operationTypeId, :customerId, :login)');
         $req->execute(array(
             'id' => $operation->getIdOperation(),
             'startDate' => $operation->getStartDate()->format("Y-m-d"),
@@ -45,10 +47,9 @@ class OperationManager
      * @param Customer $customer
      */
     public static function addCustomer(Customer $customer){
-
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi -> prepare('INSERT INTO `customer` (`id_Customer`, `name`, `surname`, `birthday`, `adress`) 
-        VALUES (:id, :nam , :surname, :birthday, :address)');
+                                        VALUES (:id, :nam , :surname, :birthday, :address)');
         $req->execute(array(
             'id'=> $customer->getIdCustomer(),
             'nam' => $customer->getName(),
@@ -58,12 +59,14 @@ class OperationManager
         ));
     }
 
-    /** Supprime une opération par l'id de l'opération
+    /** remplace le statut de en cours par finish une opération par l'id de l'opération
      * @param Operation $operation
      */
     public static function finishOperationByIdOperation(Operation $operation){
        $dbi = Singleton::getInstance()->getConnection();
-       $req = $dbi -> prepare("DELETE FROM operation WHERE Id_Operation = :idOperation");
+       $req = $dbi -> prepare("UPDATE operation 
+                                        SET Status = \"Finish\" 
+                                        where Id_Operation =:idOperation");
        $req->execute(array(
            'idOperation'=>$operation->getIdOperation()
        ));
@@ -80,7 +83,12 @@ class OperationManager
     public static function operationInProgressByIdWorker($login){
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
-        $req =$dbi -> prepare("select * from operation where login = :log  and Status = \"en cours\"");
+        $req =$dbi -> prepare("select login, StartDate, EndDate, Description, Status,Type_Operation,name, surname 
+                                        from operation, operationtype, customer 
+                                        where login = :log 
+                                            and Status = \"En cours\" 
+                                            and operationtype.Id_Operation_Type=operation.id_Operation_Type 
+                                            and operation.id_Customer=customer.Id_Customer");
         $req->execute(array(
             'log'=>$login
         ));
@@ -89,12 +97,13 @@ class OperationManager
     }
 
     public static function getNextAvailableWorker(){
-
+        //Requete sql qui permet d'avoir un tableau regroupant le login, le nombre d'operation par login et le role
        $dbi = Singleton::getInstance()->getConnection();
        $req = $dbi -> query("SELECT worker.login, count(operation.login) as nombre_worker, role 
                                             from worker left join operation on operation.login= worker.login 
                                             group by login, role");
        $res = $req->fetchAll();
+       //règle métier + création d'un tableau vide(logins) qui permet de mettre les workers disponibles et correspondant aux regles metiers
        if(isset($res)){
            $logins=array();
            foreach($res as $worker){
@@ -102,6 +111,7 @@ class OperationManager
                     array_push($logins, $worker[0]);
                }
            }
+           //On fait un random des indexs du tableau login pour permettre d'attribuer aléatoirement une opération
            if(isset($logins)){
 
                $random = rand(0, (count($logins)-1));

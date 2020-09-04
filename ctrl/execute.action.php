@@ -6,6 +6,7 @@ include "../OperationManager.class.php";
 include "../OperationType.class.php";
 include "../Customer.class.php";
 include "../Worker.class.php";
+include "../AdminManager.class.php";
 
 /*
 $dbi = Singleton::getInstance()->getConnection();
@@ -23,7 +24,7 @@ $birthday =new DateTime('1990-09-01');
 $operation = new Operation($startDate, $endDate,1,$description );
 $customer = new Customer("tata", "tutu",$birthday ,"20 rue des acacias");
 
-//$worker = new Worker("titi","toto", "expert" );
+$worker = new Worker("titi","toto", "expert" );
 //OperationManager::operationInProgressByWorker(1);
 //OperationManager::numberOperationByWorker(1);
 //OperationManager::addCustomer($customer);
@@ -31,4 +32,6 @@ $customer = new Customer("tata", "tutu",$birthday ,"20 rue des acacias");
 //OperationManager::finishOperationByIdOperation($operation);
 //echo OperationManager::randomOperation();
 //print_r(OperationManager::loginReplaceByRole(2));
-OperationManager::addOperation($operation, $customer);
+//OperationManager::addOperation($operation, $customer);
+AdminManager::AddWorker($worker);
+//echo AdminManager::generatePassword();

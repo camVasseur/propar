@@ -18,6 +18,14 @@ class Worker extends Personn
     }
 
     /**
+     * @param mixed $login
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    }
+
+    /**
      * @return mixed
      */
     public function getLogin()
