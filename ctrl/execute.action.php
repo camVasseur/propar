@@ -1,12 +1,12 @@
 <?php
 
-include_once "../Singleton.class.php";
-include "../Operation.class.php";
-include "../OperationManager.class.php";
-include "../OperationType.class.php";
-include "../Customer.class.php";
-include "../Worker.class.php";
-include "../AdminManager.class.php";
+include_once "../modele/Singleton.class.php";
+include "../modele/Operation.class.php";
+include "../modele/OperationManager.class.php";
+include "../modele/OperationType.class.php";
+include "../modele/Customer.class.php";
+include "../modele/Worker.class.php";
+include "../modele/AdminManager.class.php";
 
 /*
 $dbi = Singleton::getInstance()->getConnection();
@@ -19,12 +19,12 @@ var_dump($arr);
 // test creation de l'objet Operation
 $startDate = new DateTime('2020-08-01');
 $endDate = new DateTime('2020-09-01');
-$description = "blabla";
+$description = "Je vais mettre des caractères spéciaux aujourd'hui";
 $birthday =new DateTime('1990-09-01');
 $operation = new Operation($startDate, $endDate,1,$description );
 $customer = new Customer("tata", "élodie",$birthday ,"20 rue des acacias");
 
-$worker = new Worker("tutu","tata", "Senior" );
+$worker = new Worker("d'uchemol","Théo", "Senior" );
 //OperationManager::operationInProgressByWorker(1);
 //OperationManager::numberOperationByWorker(1);
 //OperationManager::addCustomer($customer);
