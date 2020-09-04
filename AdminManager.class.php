@@ -45,6 +45,9 @@ class AdminManager
 
     }
 
+    /** permet d'avoir un tableau de prix concernant les operations terminée
+     * @return array|null
+     */
     public static function getFinishOperation(){
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi->query("select Id_Operation, Status,Prix 
