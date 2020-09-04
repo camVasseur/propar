@@ -15,7 +15,7 @@ class AdminManager
         return $password->format("Gis");
     }
 
-    /**Ajoute un worket à la base de donnée
+    /**Ajoute un worker à la base de donnée
      * @param Worker $worker
      */
     public static function AddWorker(Worker $worker){
@@ -39,4 +39,32 @@ class AdminManager
             'password'=>$password
         ));
     }
+
+    public static function calculCA(){
+
+
+    }
+
+    public static function getFinishOperation(){
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi->query("select Id_Operation, Status,Prix 
+                                        from operation, operationtype 
+                                        where operationtype.Id_Operation_Type=operation.id_Operation_Type");
+        $res = $req->fetchAll();
+        if(isset($res)){
+            $finishOperation = array();
+            foreach($res as $operation){
+                if($operation[1] == "Finish"){
+                    array_push($finishOperation, $operation[2]);
+                }
+            }
+        }
+        if(isset($finishOperation)){
+
+            return $finishOperation;
+        }
+        return NULL;
+}
+
+
 }

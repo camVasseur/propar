@@ -3,18 +3,14 @@
 
 class Worker extends Personn
 {
-    private $login; //int
-    private static $count; //int
     private $role; //string
     private $password; //
-
+    private $login;
 
     public function __construct($name, $surname, $role)
     {
         parent::__construct($name, $surname);
         $this->role = $role;
-        Worker::$count = Worker::$count + 1;
-        $this->login = Worker::$count;
     }
 
     /**

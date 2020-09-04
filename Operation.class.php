@@ -4,7 +4,6 @@
 class Operation
 {
     private $idOperation; //int
-    private static $count = 29; //variable statique permettant d'incrementer
     private $startDate; // DateTime
     private $endDate; //DateTime
     private $description; //String
@@ -15,12 +14,18 @@ public function __construct(DateTime $startDate, DateTime $endDate, $type, $desc
     $this->startDate = $startDate;
     $this->endDate = $endDate;
     $this->description = $description;
-    Operation::$count = Operation::$count + 1;
-    $this->idOperation = Operation::$count;
     $this->type = $type;
     $this->status = "En cours";
 
 }
+
+    /**
+     * @param int $idOperation
+     */
+    public function setIdOperation($idOperation)
+    {
+        $this->idOperation = $idOperation;
+    }
 
     /**
      * @return int

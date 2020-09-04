@@ -17,6 +17,13 @@ class OperationManager
         if($worker == NULL){
             return "Tous les workers sont occupés";
         }
+        //on incremente le compteur Opération
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi -> query("select count(id_Operation) 
+                                        from operation");
+        $count = $req->fetchColumn();
+        $operation->setIdOperation($count +1);
+
         // on incremente le compteur du customer
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi -> query("select count(id_Customer) 
@@ -60,15 +67,15 @@ class OperationManager
     }
 
     /** remplace le statut de en cours par finish une opération par l'id de l'opération
-     * @param Operation $operation
+     *
      */
-    public static function finishOperationByIdOperation(Operation $operation){
+    public static function finishOperationByIdOperation($idOperation){
        $dbi = Singleton::getInstance()->getConnection();
        $req = $dbi -> prepare("UPDATE operation 
                                         SET Status = \"Finish\" 
-                                        where Id_Operation =:idOperation");
+                                        where Id_Operation =:idOpe");
        $req->execute(array(
-           'idOperation'=>$operation->getIdOperation()
+           'idOpe'=>$idOperation
        ));
     }
     //toDo voir si c'est utile de faire cette fonction
