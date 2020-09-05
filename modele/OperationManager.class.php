@@ -23,20 +23,13 @@ class OperationManager
                                         from operation");
         $count = $req->fetchColumn();
         $operation->setIdOperation($count +1);
-
-        // on incremente le compteur du customer
-        $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> query("select count(id_Customer) 
-                                        from customer");
-        $count = $req->fetchColumn();
-        $customer->setIdCustomer($count +1);
         //On ajoute un customer
         self::addCustomer($customer);
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi->prepare('INSERT INTO `operation` (`Id_Operation`, `StartDate`, `EndDate`, `Description`
-                                        , `Status`, `id_Operation_Type`, `id_Customer`, `login`)    
-                                        VALUES (:id, :startDate, :endDate, :des, :status, :operationTypeId, :customerId, :login)');
+                                        , `Status`, `id_Operation_Type`, `Email`, `login`)    
+                                        VALUES (:id, :startDate, :endDate, :des, :status, :operationTypeId, :email, :login)');
         $req->execute(array(
             'id' => $operation->getIdOperation(),
             'startDate' => $operation->getStartDate()->format("Y-m-d"),
@@ -44,7 +37,7 @@ class OperationManager
             'des' => $operation->getDescription(),
             'status' => $operation->getStatus(),
             'operationTypeId' => strval($operation->getType()),
-            'customerId' => $customer->getIdCustomer(),
+            'email' => $customer->getEmail(),
             'login' => strval($worker)
         ));
         return "opération ajoutée";
@@ -54,16 +47,17 @@ class OperationManager
      * @param Customer $customer
      */
     public static function addCustomer(Customer $customer){
-        $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> prepare('INSERT INTO `customer` (`id_Customer`, `name`, `surname`, `birthday`, `adress`) 
-                                        VALUES (:id, :nam , :surname, :birthday, :address)');
-        $req->execute(array(
-            'id'=> $customer->getIdCustomer(),
-            'nam' => $customer->getName(),
-            'surname' => $customer->getSurname(),
-            'birthday' => $customer->getBirthday()->format("Y-m-d"),
-            'address' => $customer->getAddress()
-        ));
+            $dbi = Singleton::getInstance()->getConnection();
+            $req = $dbi->prepare('INSERT INTO `customer` (`Email`, `name`, `surname`, `birthday`, `adress`) 
+                                        VALUES (:email, :nam , :surname, :birthday, :address)');
+            $req->execute(array(
+                'email' => $customer->getEmail(),
+                'nam' => $customer->getName(),
+                'surname' => $customer->getSurname(),
+                'birthday' => $customer->getBirthday()->format("Y-m-d"),
+                'address' => $customer->getAddress()
+            ));
+
     }
 
     /** remplace le statut de en cours par finish une opération par l'id de l'opération
@@ -84,25 +78,39 @@ class OperationManager
         $req = $dbi -> prepare();
     }*/
 
-    /** fonction qui retourne un array des opérations qui sont en cours par login
-     * @param $login
+    /** fonction qui retourne un array des opérations qui sont en cours par ordre alpha des clients
+     *
      */
-    public static function operationInProgressByIdWorker($login){
+    public static function getOperationInProgress(){
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
         $req =$dbi -> prepare("select login, StartDate, EndDate, Description, Status,Type_Operation,name, surname 
                                         from operation, operationtype, customer 
-                                        where login = :log 
-                                            and Status = \"En cours\" 
-                                            and operationtype.Id_Operation_Type=operation.id_Operation_Type 
-                                            and operation.id_Customer=customer.Id_Customer");
-        $req->execute(array(
-            'log'=>$login
-        ));
+                                        where Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
+                                        order by name ASC");
+        $req->execute(array());
         $arr = $req -> fetchAll();
         var_dump($arr);
     }
 
+    /** fonction qui retourne un array des opérations qui sont finies par ordre alpha des clients
+     *
+     */
+    public static function getFinishoperation(){
+        //$login = $_SESSION["login"];
+        $dbi = Singleton::getInstance()->getConnection();
+        $req =$dbi -> prepare("select login, StartDate, EndDate, Description, Status,Type_Operation,name, surname 
+                                        from operation, operationtype, customer 
+                                        where Status = 'Finish' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
+                                        order by name ASC");
+        $req->execute(array());
+        $arr = $req -> fetchAll();
+        var_dump($arr);
+    }
+
+    /**Methode qui determine aléatoirement un worker disponible en fonction des règles métier
+     * @return mixed|null
+     */
     public static function getNextAvailableWorker(){
         //Requete sql qui permet d'avoir un tableau regroupant le login, le nombre d'operation par login et le role
        $dbi = Singleton::getInstance()->getConnection();

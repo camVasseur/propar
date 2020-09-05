@@ -21,20 +21,28 @@ $startDate = new DateTime('2020-08-01');
 $endDate = new DateTime('2020-09-01');
 $description = "Je vais mettre des caractères spéciaux aujourd'hui";
 $birthday =new DateTime('1990-09-01');
-$operation = new Operation($startDate, $endDate,1,$description );
-$customer = new Customer("tata", "élodie",$birthday ,"20 rue des acacias");
+$operation = new Operation($startDate, $endDate,2,$description );
+$customer = new Customer("dada.dodo@gmail.com", "Antoine", "Andre",$birthday,"20 rue des accacias");
 
-$worker = new Worker("d'uchemol","Théo", "Senior" );
-//OperationManager::operationInProgressByWorker(1);
+$worker = new Worker("Dodo","Ddidi", "Expert" );
+
+//if (filter_var($customer->getEmail(), FILTER_VALIDATE_EMAIL)) {
+
+
+
+$table = OperationManager::displayFinishoperation();
+print_r($table);
 //OperationManager::numberOperationByWorker(1);
 //OperationManager::addCustomer($customer);
 //OperationManager::addOperation($operation, $customer);
-//OperationManager::finishOperationByIdOperation(4);
-//echo OperationManager::randomOperation();
-//print_r(OperationManager::loginReplaceByRole(2));
+//OperationManager::finishOperationByIdOperation(8);
+
 //OperationManager::addOperation($operation, $customer);
-AdminManager::AddWorker($worker);
+//AdminManager::AddWorker($worker);
 //echo AdminManager::generatePassword();
 //$finishTable=AdminManager::getFinishOperation();
 //$ca=AdminManager::calculCA();
 //echo $ca;
+//}else {
+ //return NULL;
+//}

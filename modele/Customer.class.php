@@ -6,11 +6,13 @@ class Customer extends  Personn
 
     private $birthday;
     private $address;
+    private $email;
 
-    public function __construct($name,$surname, DateTime $birthday , $address)
+    public function __construct($email,$name,$surname, DateTime $birthday , $address)
     {
         $this->birthday = $birthday;
         $this->address = $address;
+        $this->email =$email;
 
         parent::__construct($name, $surname);
             $this->name = $name;
@@ -21,34 +23,11 @@ class Customer extends  Personn
     /**
      * @return mixed
      */
-    public function getIdCustomer()
+    public function getEmail()
     {
-        return $this->idCustomer;
+        return $this->email;
     }
 
-    /**
-     * @param mixed $idCustomer
-     */
-    public function setIdCustomer($idCustomer)
-    {
-        $this->idCustomer = $idCustomer;
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getCount()
-    {
-        return self::$count;
-    }
-
-    /**
-     * @param mixed $count
-     */
-    public static function setCount($count)
-    {
-        self::$count = $count;
-    }
 
     /**
      * @return mixed
