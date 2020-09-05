@@ -75,8 +75,28 @@ class AdminManager
         }
         return NULL;
 }
-    //public static function authentification($login, $password){
-    //}
+
+    /**Fonction d'authentification qui détermine  si login et mdp ok return le role
+     * @param $login
+     * @param $password
+     * @return mixed|null
+     */
+    public static function authentification($login, $password){
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi->query("select login, PASSWORD, role 
+                                        from worker");
+        $res =$req->fetchAll();
+        if(isset($res)){
+            foreach($res as $worker){
+              if($worker[0] == $login and $worker[1] == $password){
+
+                  return $worker[2];
+              }  else{
+                  return NULL;
+              }
+            }
+        }
+    }
 
 
 }

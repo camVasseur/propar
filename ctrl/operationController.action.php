@@ -1,0 +1,2 @@
+//methode getFinishOperation
+//methode getOperationInProgress
