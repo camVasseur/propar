@@ -90,7 +90,7 @@ class OperationManager
                                         order by name ASC");
         $req->execute(array());
         $arr = $req -> fetchAll();
-        var_dump($arr);
+        return $arr;
     }
 
     /** fonction qui retourne un array des opérations qui sont finies par ordre alpha des clients
@@ -105,7 +105,7 @@ class OperationManager
                                         order by name ASC");
         $req->execute(array());
         $arr = $req -> fetchAll();
-        var_dump($arr);
+        return $arr;
     }
 
     public static function operationInProgressByIdWorker($login)
