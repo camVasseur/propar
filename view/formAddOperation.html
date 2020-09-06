@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter une opération</title>
+</head>
+<header>
+    <h1>Nettoyage Propar</h1>
+</header>
+<body>
+    <section id="formOperationCustomer">
+
+        <form action="" id="formAddOperation">
+            <h1>Operation : </h1>
+            <fieldset>
+                <label for="startDate">Date de début : </label>
+                <input type="date" id="startDate">
+                <label for="endDate">Date de fin : </label>
+                <input type="date" id="endDate">
+                <fieldset>
+                   <legend>type d'opération</legend>
+                   <label for="petite">Petite</label>
+                   <input type="radio" id="petite" name="type" value="Petite">
+                   <label for="moyenne">Moyenne</label>
+                   <input type="radio" id="moyenne" name="type" value="Moyenne">
+                   <label for="grande">Grande</label>
+                   <input type="radio" id="grande" name="type" value="Grande">
+                </fieldset>
+                <textarea name="description" form="formAddOperation">Description de l'opération : </textarea>
+            </fieldset>
+            <h1>Client : </h1>
+            <fieldset>
+                <label for="email">Email : </label>
+                <input type="email" id="email">
+                <label for="customerSurname">Nom du client : </label>
+                <input type="text" id="customerSurname">
+                <label for="customerName">Prénom du client : </label>
+                <input type="text" id="customerName">
+                <label for="birthday">Date de naissance</label>
+                <input type="date" id="birthday">
+                <label for="address">Adresse : </label>
+                <input type="text" id="address">
+            </fieldset>
+            <button type="submit">Valider</button>
+        </form>
+        <button>Retour au Menu</button>
+
+    </section>
+</body>
+</html>
