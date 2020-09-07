@@ -1,4 +1,5 @@
 function login(login,password){
+    login = $('#login')
     $.ajax({
         url: '../ctrl/authentification.action.php',
         type: 'POST',
@@ -55,6 +56,30 @@ function getOperations(){
               }*/
     })
 }
+
+function addOperation(){
+
+    $.post('../ctrl/operationController.action.php', $('#formAddOperation').serialize(),function( data ) {
+        console.log( data);
+    }, "json").fail(function() {
+        console.log( "error" );
+    })
+    // var jqxhr = $.post( "example.php", function() {
+    //     alert( "success" );
+    // })
+    //     .done(function() {
+    //         alert( "second success" );
+    //     })
+    //     .fail(function() {
+    //         alert( "error" );
+    //     })
+    //     .always(function() {
+    //         alert( "finished" );
+    //     });
+}
+
+
+
 $(document).ready(function() {
     //login(10, 24);
     //login(1, 85233);
@@ -69,4 +94,5 @@ $(document).ready(function() {
             { "data": "salary" }
         ]});
     getOperations();
+
 })
