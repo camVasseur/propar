@@ -6,8 +6,9 @@
 // methode qui liste les opérations en cours enfonction de l'id
 
 include "../modele/OperationManager.class.php";
-echo "toto";
-$operation = OperationManager::getOperationInProgress();
-echo json_encode($operation);
+
+echo json_encode($_POST);
+//$operation = OperationManager::getOperationInProgress();
+//echo json_encode($operation);
 
 ?>
