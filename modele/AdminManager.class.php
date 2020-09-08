@@ -38,6 +38,7 @@ class AdminManager
             'role'=>$worker->getRole(),
             'password'=>$password
         ));
+        return "mot de passe : ".$password."login : ".$worker->getLogin();
     }
 
     /**Calcul du Ca à partir d'un tableau de prix

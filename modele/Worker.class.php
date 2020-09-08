@@ -1,15 +1,18 @@
 <?php
-//include "Personn.class.php";
+include "Personn.class.php";
 
 class Worker extends Personn
 {
-    private $role; //string
-    private $password; //
-    private $login;
+    public $role; //string
+    public $password; //
+    public $login;
 
     public function __construct($name, $surname, $role)
     {
+        $this->role = $role;
         parent::__construct($name, $surname);
+        $this->name = $name;
+        $this->surname = $surname;
         $this->role = $role;
     }
 

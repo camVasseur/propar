@@ -4,9 +4,9 @@ include "Personn.class.php";
 class Customer extends  Personn
 {
 
-    private $birthday;
-    private $address;
-    private $email;
+    public $birthday;
+    public $address;
+    public$email;
 
     public function __construct($email,$name,$surname, DateTime $birthday , $address)
     {

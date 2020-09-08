@@ -3,12 +3,12 @@
 
 class Operation
 {
-    private $idOperation; //int
-    private $startDate; // DateTime
-    private $endDate; //DateTime
-    private $description; //String
-    private $status = "" ; //String
-    private $type; // Type
+    public $idOperation; //int
+    public $startDate; // DateTime
+    public $endDate; //DateTime
+    public $description; //String
+    public $status = "" ; //String
+    public $type; // Type
 
 public function __construct(DateTime $startDate, DateTime $endDate, $type, $description){
     $this->startDate = $startDate;

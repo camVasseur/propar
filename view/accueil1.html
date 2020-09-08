@@ -1500,12 +1500,12 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <section id="formWorker">
-                                    <form action="" method="post">
+                                <section >
+                                    <form action="" method="post" id="formWorker">
                                         <label for="workerSurname">Nom : </label>
-                                        <input type="text" id ="workerSurname"></br>
+                                        <input type="text" id ="workerSurname" name="workerSurname"></br>
                                         <label for="workerName">Prénom :  </label>
-                                        <input type="text" id="workerName"></br>
+                                        <input type="text" id="workerName" name="workerName"></br>
                                         <fieldset>
                                             <h5 class="text-info">Role : </h5>
                                             <label for="expert">Expert </label>
@@ -1519,7 +1519,7 @@
                                 </section>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-info">Valider</button>
+                                <button type="submit" class="btn btn-info" onclick="addWorker()" >Valider</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                             </div>
                         </div>
@@ -1614,26 +1614,26 @@
                                         <fieldset>
                                             <h5 class="text-info"><legend>type d'opération : </legend></h5>
                                             <label for="petite">Petite</label>
-                                            <input type="radio" id="petite" name="type" value="Petite">
+                                            <input type="radio" id="petite" name="type" value="1">
                                             <label for="moyenne">Moyenne</label>
-                                            <input type="radio" id="moyenne" name="type" value="Moyenne">
+                                            <input type="radio" id="moyenne" name="type" value="2">
                                             <label for="grande">Grande</label>
-                                            <input type="radio" id="grande" name="type" value="Grande">
+                                            <input type="radio" id="grande" name="type" value="3">
                                         </fieldset>
                                         <textarea name="description" form="formAddOperation">Description de l'opération : </textarea>
                                     </fieldset>
                                     <h5 class="text-info">Client : </h5>
                                     <fieldset>
                                         <label for="email">Email : </label>
-                                        <input type="email" id="email"></br>
+                                        <input type="email" name="email" id="email"></br>
                                         <label for="customerSurname">Nom du client : </label>
-                                        <input type="text" id="customerSurname"></br>
+                                        <input type="text" name="customerSurname" id="customerSurname"></br>
                                         <label for="customerName">Prénom du client : </label>
-                                        <input type="text" id="customerName"></br>
+                                        <input type="text" name="customerName" id="customerName"></br>
                                         <label for="birthday">Date de naissance</label>
-                                        <input type="date" id="birthday"></br>
+                                        <input type="date" name="birthday" id="birthday"></br>
                                         <label for="address">Adresse : </label>
-                                        <input type="text" id="address"></br>
+                                        <input type="text" name="address" id="address"></br>
                                     </fieldset>
                                 </form>
                             </div>

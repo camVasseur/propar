@@ -56,6 +56,14 @@ function getOperations(){
               }*/
     })
 }
+function addWorker() {
+
+    $.post('../ctrl/adminController.action.php', $('#formWorker').serialize(), function (data) {
+        console.log(data);
+    }, "json").fail(function () {
+        console.log("error");
+    })
+}
 
 function addOperation(){
 
@@ -79,7 +87,7 @@ function addOperation(){
 }
 
 
-
+/*
 $(document).ready(function() {
     //login(10, 24);
     //login(1, 85233);
@@ -96,3 +104,5 @@ $(document).ready(function() {
     getOperations();
 
 })
+
+ */
