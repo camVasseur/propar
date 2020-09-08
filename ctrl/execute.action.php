@@ -1,12 +1,12 @@
 <?php
-include "../modele/Personn.class.php";
+include_once "../modele/Personn.class.php";
 include_once "../modele/Singleton.class.php";
-include "../modele/Operation.class.php";
-include "../modele/OperationManager.class.php";
-include "../modele/OperationType.class.php";
-include "../modele/Customer.class.php";
-include "../modele/Worker.class.php";
-include "../modele/AdminManager.class.php";
+include_once "../modele/Operation.class.php";
+include_once "../modele/OperationManager.class.php";
+include_once "../modele/OperationType.class.php";
+include_once "../modele/Customer.class.php";
+include_once "../modele/Worker.class.php";
+include_once "../modele/AdminManager.class.php";
 
 
 /*

@@ -1,5 +1,6 @@
 <?php
 
+include_once "Personn.class.php";
 
 class Worker extends Personn
 {

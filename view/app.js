@@ -1,8 +1,17 @@
-
+var isLogged = false;
+var userRole = "";
+var userLogin = "";
+var userName = "";
+var userSurname = "";
+var isCaVisible = false;
+var CanAddUser = false;
+var CanFinishOperation = false;
+var CanAddOperation = false;
+var data = undefined;
 
 function login(){
-    login = $('#login').val();
-    password = $('#password').val();
+    let login = $('#login').val();
+    let password = $('#password').val();
 
     $.ajax({
         url: '../ctrl/authentification.action.php',
@@ -10,22 +19,22 @@ function login(){
         dataType: 'json', //text
         data: {
             login: login,
-            password: password
-
+            password: password,
+            action: "login"
         },
         error: function (response) {
 
             console.log('error');
             console.log(response);
-
-
         },
-        success: function (response) {
-          // let json = $.parseJSON(response);
+        success: function (response, httpStatusCode) {
             console.log(response);
-            console.log(status);
-            $('#login').val(response);
-
+            userRole = response.role;
+            userLogin = response.login;
+            userName = response.name;
+            userSurname = response.surname;
+            isLogged = true;
+            SetGlobalVariables();
         },
   /*
         complete : function(response){
@@ -34,7 +43,23 @@ function login(){
     })
 }
 
-
+function logout() {
+    $.ajax({
+        url: '../ctrl/authentification.action.php',
+        type: 'POST',
+        dataType: 'json', //text
+        data: {
+            action: "logout"
+        },
+        error: function (response) {
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response, httpStatusCode) {
+            console.log(response);
+            resetGlobalVariables();
+        }})
+}
 
 function getOperations(){
     $.ajax({
@@ -46,15 +71,11 @@ function getOperations(){
             console.log(titi);
             console.log('error');
             console.log(response);
-
-
         },
         success: function (response, status) {
             //let json = $.parseJSON(response);
             console.log(response);
             console.log(status);
-
-
         },
         /*
               complete : function(response){
@@ -92,6 +113,61 @@ function addOperation(){
     //     });
 }
 
+function SetGlobalVariables() {
+    if (isLogged){
+        CanFinishOperation = true;
+        CanAddOperation = true;
+
+        if (userRole === "Expert"){
+            isCaVisible=true;
+            CanAddUser = true;
+        }
+    }
+    else {
+        resetGlobalVariables();
+    }
+    displayInterface();
+}
+
+function displayInterface(){
+    if(isLogged){
+        document.getElementById("profileLink").style.visibility = "visible";
+        document.getElementById("addWorkerLink").style.visibility = "hidden";
+        document.getElementById("loginLink").style.visibility = "hidden";
+        document.getElementById("logoutLink").style.visibility = "visible";
+        if (userRole == "Expert"){
+            document.getElementById("addWorkerLink").style.visibility = "visible";
+        }
+    }else {
+        document.getElementById("profileLink").style.visibility = "hidden";
+        document.getElementById("addWorkerLink").style.visibility = "hidden";
+        document.getElementById("loginLink").style.visibility = "visible";
+        document.getElementById("logoutLink").style.visibility = "hidden";
+    }
+}
+
+function resetGlobalVariables(){
+    isLogged = false;
+    userRole = "";
+    userLogin = "";
+    userName = "";
+    userSurname = "";
+    isCaVisible = false;
+    CanAddUser = false;
+    CanFinishOperation = false;
+    CanAddOperation = false;
+
+    displayInterface();
+}
+
+function getCa(){
+
+    $.get('../ctrl/adminController.action.php', function( data ) {
+        console.log( data);
+    }, "json").fail(function() {
+        console.log("error");
+    })
+}
 // function login() {
 //
 //     $.post('../ctrl/authentification.action.php', $('#authentification').serialize(), function (data) {
@@ -100,11 +176,43 @@ function addOperation(){
 //         console.log("error");
 //     })
 // }
-/*
+
 $(document).ready(function() {
-    //login(10, 24);
-    //login(1, 85233);
-    $('#datatable').DataTable({
+
+    $.ajax({
+        url: '../ctrl/operationController.action.php',
+        type: 'POST',
+        dataType: 'json', //text
+        data: {
+            action: "list"
+        },
+        error: function (response) {
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response, httpStatusCode) {
+            console.log(response);
+            data=response;
+            $('#myDatatableAMoi').DataTable({
+                data: data,
+                columns: [
+                    { data: "Description" },
+                    { data: "EndDate" },
+                    { data: "StartDate" },
+                    { data: "Type_Operation" },
+                    { data: "name" },
+                    { data: "surname" }
+                ],
+                columnDefs: [
+                    { type: "html",  orderable: true, targets: [0, 3, 4 , 5] },
+                    { type: "date", targets: 1 }
+                ],
+                paging: false,
+                scrollY: 400,
+                ordering: true
+            });
+        }})
+    /*$('#myDatatableAMoi').DataTable({
         "ajax": "../ctrl/operationController.action.php",
         "columns": [
             { "data": "name" },
@@ -113,9 +221,11 @@ $(document).ready(function() {
             { "data": "extn" },
             { "data": "start_date" },
             { "data": "salary" }
-        ]});
-    getOperations();
+        ]});*/
+    //getOperations();
+
+    resetGlobalVariables();
+    displayInterface();
 
 })
 
- */

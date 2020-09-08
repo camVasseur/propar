@@ -1,6 +1,7 @@
 <?php
 
 include_once "Singleton.class.php";
+include "Worker.class.php";
 class AdminManager
 {
     public function __construct()
@@ -83,7 +84,7 @@ class AdminManager
      * @return mixed|null
      */
     public static function authentification($login, $password){
-        $dbi = Singleton::getInstance()->getConnection();
+        /*$dbi = Singleton::getInstance()->getConnection();
         $req = $dbi->query("select login, Password, Role 
                                         from worker");
         $res =$req->fetchAll();
@@ -95,7 +96,21 @@ class AdminManager
                   return NULL;
               }
             }
+        }*/
+
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi->query("select login, Password, Role, Name, Surname 
+                                        from worker where login = ".$login);
+        $res =$req->fetchAll();
+        if(isset($res) && count($res) == 1){
+            $arrayWorker = $res[0];
+            if ($arrayWorker[1 == $password]){
+                $worker = new Worker($arrayWorker[3], $arrayWorker[4], $arrayWorker[2]);
+                $worker->setLogin($login);
+                return $worker;
+            }
         }
+        return NULL;
     }
 
 

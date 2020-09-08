@@ -1,9 +1,9 @@
 <?php
 //methode calcul du ca
 //methode creation du worker
-include "../modele/Personn.class.php";
-include"../modele/AdminManager.class.php";
-include"../modele/Worker.class.php";
+include_once "../modele/Personn.class.php";
+include_once "../modele/AdminManager.class.php";
+include_once "../modele/Worker.class.php";
 
 
 $workerSurname = $_POST["workerSurname"];
@@ -16,5 +16,7 @@ $role = $_POST["role"];
 $worker = new Worker($workerSurname, $workerName,$role);
 AdminManager::AddWorker($worker);
 echo json_encode($worker);
+
+
 
 //var_dump($worker);
