@@ -10,7 +10,7 @@ class Operation
     public $status = "" ; //String
     public $type; // Type
 
-public function __construct(DateTime $startDate, DateTime $endDate, $type, $description){
+public function __construct( $startDate,  $endDate, $type, $description){
     $this->startDate = $startDate;
     $this->endDate = $endDate;
     $this->description = $description;

@@ -1,5 +1,5 @@
 <?php
-include "Personn.class.php";
+
 
 class Customer extends  Personn
 {
@@ -8,7 +8,7 @@ class Customer extends  Personn
     public $address;
     public$email;
 
-    public function __construct($email,$name,$surname, DateTime $birthday , $address)
+    public function __construct($email,$name,$surname, $birthday , $address)
     {
         $this->birthday = $birthday;
         $this->address = $address;

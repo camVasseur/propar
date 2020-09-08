@@ -54,7 +54,7 @@ class OperationManager
                 'email' => $customer->getEmail(),
                 'nam' => $customer->getName(),
                 'surname' => $customer->getSurname(),
-                'birthday' => $customer->getBirthday()->format("Y-m-d"),
+                'birthday' => $customer->getBirthday(),
                 'address' => $customer->getAddress()
             ));
 

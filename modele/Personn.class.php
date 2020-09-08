@@ -1,6 +1,5 @@
 <?php
 
-
 class Personn
 {
     protected $name;

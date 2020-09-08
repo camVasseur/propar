@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 include"../modele/AdminManager.class.php";
 //recupère le formulaire par le call ajax
 //Appel de la méthode qui verifie si l'authentification est ok return le role
@@ -7,19 +7,22 @@ include"../modele/AdminManager.class.php";
 //$authentif= AdminManager::authentification(1,85233);
 //echo $authentif;
 
-if( isset($_POST['username']) && isset($_POST['password']) ){
-    $login = $_POST['username'];
+//if( isset($_POST['login']) && isset($_POST['password']) ){
+    $login = $_POST['login'];
     $password = $_POST['password'];
     $role = AdminManager::authentification($login,$password);
-    if($role == NULL){
-        http_response_code(400);
-    }else{
+    //echo json_encode($password);
+    //return "Vous êtes connecté";
+//    if($role == NULL){
+//        http_response_code(400);
+//    }else{
+//
+//        $_SESSION['role']=$role;
+//       http_response_code(201);
+//        echo json_encode($role);
+//    }
 
-        $_SESSION['role']=$role;
-       http_response_code(201);
-        echo json_encode($role);
-    }
-
-}
+//}
+var_dump($login);
 
 

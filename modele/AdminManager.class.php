@@ -84,13 +84,12 @@ class AdminManager
      */
     public static function authentification($login, $password){
         $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi->query("select login, PASSWORD, role 
+        $req = $dbi->query("select login, Password, Role 
                                         from worker");
         $res =$req->fetchAll();
         if(isset($res)){
             foreach($res as $worker){
               if($worker[0] == $login and $worker[1] == $password){
-
                   return $worker[2];
               }  else{
                   return NULL;

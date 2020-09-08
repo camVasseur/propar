@@ -1,6 +1,7 @@
 <?php
 //methode calcul du ca
 //methode creation du worker
+include "../modele/Personn.class.php";
 include"../modele/AdminManager.class.php";
 include"../modele/Worker.class.php";
 

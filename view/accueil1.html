@@ -164,7 +164,7 @@
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profil</a>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addWorker"><i class="dw dw-settings2"></i> Ajouter un employé</a>
-                    <a class="btn dropdown-item" href="#"data-toggle="modal" data-target="#monModal" ><i class="dw dw-help"></i> Connexion</a>
+                    <a class="btn dropdown-item" href="#"data-toggle="modal" data-target="#log" ><i class="dw dw-help"></i> Connexion</a>
                     <a class="dropdown-item "data-toggle="modal" data-target="#deconnexion"><i class="dw dw-logout"></i> Déconnexion</a>
                 </div>
             </div>
@@ -1525,7 +1525,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal modal-sm" id="monModal" >
+                <div class="modal modal-sm" id="log" >
                     <div class="modal-dialog" >
                         <div class="modal-content">
                             <div class="modal-header">
@@ -1535,16 +1535,16 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="../ctrl/authentification.action.php" method="post">
+                                <form action="" name="authentification" method="post">
                                     <label for="login">Login : </label>
                                     <input type="text" id="login" name="login"></br>
                                     <label for="password">Mot de passe : </label>
-                                    <input type="password" id="password" password="login">
+                                    <input type="text" id="password" name="password">
 
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-info">Valider</button>
+                                <button type="submit" class="btn btn-info" onclick="login()">Valider</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                             </div>
                         </div>

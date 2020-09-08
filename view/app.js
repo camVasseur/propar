@@ -1,22 +1,26 @@
-function login(login,password){
-    login = $('#login')
+
+
+function login(){
+    login = $('#login').val();
+    password = $('#password').val();
+
     $.ajax({
         url: '../ctrl/authentification.action.php',
         type: 'POST',
         dataType: 'json', //text
         data: {
-            username: login,
+            login: login,
             password: password
 
         },
-        error: function (response, status, titi) {
-            console.log(titi);
+        error: function (response) {
+
             console.log('error');
             console.log(response);
 
 
         },
-        success: function (response, status) {
+        success: function (response) {
           // let json = $.parseJSON(response);
             console.log(response);
             console.log(status);
@@ -29,6 +33,8 @@ function login(login,password){
         }*/
     })
 }
+
+
 
 function getOperations(){
     $.ajax({
@@ -86,7 +92,14 @@ function addOperation(){
     //     });
 }
 
-
+// function login() {
+//
+//     $.post('../ctrl/authentification.action.php', $('#authentification').serialize(), function (data) {
+//         console.log(data);
+//     }, "json").fail(function () {
+//         console.log("error");
+//     })
+// }
 /*
 $(document).ready(function() {
     //login(10, 24);

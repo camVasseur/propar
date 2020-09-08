@@ -1,5 +1,5 @@
 <?php
-
+include "../modele/Personn.class.php";
 include_once "../modele/Singleton.class.php";
 include "../modele/Operation.class.php";
 include "../modele/OperationManager.class.php";
@@ -7,6 +7,7 @@ include "../modele/OperationType.class.php";
 include "../modele/Customer.class.php";
 include "../modele/Worker.class.php";
 include "../modele/AdminManager.class.php";
+
 
 /*
 $dbi = Singleton::getInstance()->getConnection();
@@ -30,12 +31,15 @@ $worker = new Worker("Dodo","Ddidi", "Expert" );
 
 
 
-$table = OperationManager::displayFinishoperation();
-print_r($table);
+//$table = OperationManager::displayFinishoperation();
+//print_r($table);
 //OperationManager::numberOperationByWorker(1);
 //OperationManager::addCustomer($customer);
 //OperationManager::addOperation($operation, $customer);
+
 //OperationManager::finishOperationByIdOperation(8);
+//$auth = AdminManager::authentification("1","125440");
+//var_dump($auth);
 
 //OperationManager::addOperation($operation, $customer);
 //AdminManager::AddWorker($worker);
