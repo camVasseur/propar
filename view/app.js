@@ -113,7 +113,7 @@ function addWorker() {
 
 function addOperation() {
 
-    $.post('../ctrl/operationController.action.php', $('#formAddOperation').serialize(), function (data) {
+    $.post('../ctrl/addOperation.action.php', $('#formAddOperation').serialize(), function (data) {
         console.log(data);
     }, "json").fail(function () {
         console.log("error");
@@ -130,7 +130,7 @@ function finishOperationById() {
         type: 'POST',
         dataType: 'json', //text
         data: {
-            idOperation: "idOperation",
+            idOperation: idOperation,
         },
         error: function (response) {
 

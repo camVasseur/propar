@@ -19,7 +19,7 @@ class OperationManager
         }
         //on incremente le compteur Opération
         $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi -> query("select count(id_Operation) 
+        $req = $dbi -> query("select count(Id_Operation) 
                                         from operation");
         $count = $req->fetchColumn();
         $operation->setIdOperation($count +1);

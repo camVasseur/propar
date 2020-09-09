@@ -4,7 +4,6 @@ include_once "../modele/Operation.class.php";
 include_once "../modele/Customer.class.php";
 include_once "../modele/OperationManager.class.php";
 
-session_start();
-$idOperation = $_POST['idOperation'];
-$finishOperation = OperationManager::finishOperationByIdOperation($idOperation);
-echo json_encode($finishOperation);
+$idOperation =  $_POST['idOperation'];
+OperationManager::finishOperationByIdOperation($idOperation);
+echo json_encode("ok");
