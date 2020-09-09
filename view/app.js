@@ -273,18 +273,14 @@ $(document).ready(function() {
             $('#myDatatableAMoi').DataTable({
                 data: data,
                 columns: [
-                    { data: "login" },
-                    { data: "Id_Operation" },
-                    { data: "Description" },
-                    { data: "EndDate" },
-                    { data: "StartDate" },
-                    { data: "Type_Operation" },
-                    { data: "name" },
-                    { data: "surname" }
-                ],
-                columnDefs: [
-                    { type: "html",  orderable: true, targets: [0, 3, 4 , 5] },
-                    { type: "date", targets: 1 }
+                    { data: "login", title: "login" },
+                    { data: "Id_Operation", title: "N° Operation" },
+                    { data: "Description", title: "Description"},
+                    { data: "StartDate", title: "Debut" },
+                    { data: "EndDate", title: "Fin" },
+                    { data: "Type_Operation", title: "Type" },
+                    { data: "name", title: "Name" },
+                    { data: "surname", title: "Surname" }
                 ],
                 paging: false,
                 scrollY: 400,

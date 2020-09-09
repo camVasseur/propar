@@ -30,7 +30,7 @@ class OperationManager
         $req = $dbi->prepare('INSERT INTO `operation` (`Id_Operation`, `StartDate`, `EndDate`, `Description`
                                         , `Status`, `id_Operation_Type`, `Email`, `login`)    
                                         VALUES (:id, :startDate, :endDate, :des, :status, :operationTypeId, :email, :login)');
-        $req->execute(array(
+        $res = $req->execute(array(
             'id' => $operation->getIdOperation(),
             'startDate' => $operation->getStartDate()->format("Y-m-d"),
             'endDate' => $operation->getEndDate()->format("Y-m-d"),
@@ -92,14 +92,14 @@ class OperationManager
 //                                        where Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email
 //                                        order by name ASC");
         $req->execute(array());
-        $arr = $req -> fetchAll();
+        $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
         return $arr;
     }
 
     /** fonction qui retourne un array des opérations qui sont finies par ordre alpha des clients
      *
      */
-    public static function getFinishoperation(){
+    public static function getFinishedOperation(){
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
         $req =$dbi -> prepare("select login, StartDate, EndDate, Description, Status,Type_Operation,name, surname 
@@ -107,7 +107,7 @@ class OperationManager
                                         where Status = 'Finish' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
                                         order by name");
         $req->execute(array());
-        $arr = $req -> fetchAll();
+        $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
         return $arr;
     }
 
@@ -122,7 +122,7 @@ class OperationManager
         $req->execute(array(
             'log'=>$login
         ));
-        $arr = $req -> fetchAll();
+        $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
         var_dump($arr);
     }
     /**Methode qui determine aléatoirement un worker disponible en fonction des règles métier
@@ -131,16 +131,21 @@ class OperationManager
     public static function getNextAvailableWorker(){
         //Requete sql qui permet d'avoir un tableau regroupant le login, le nombre d'operation par login et le role
        $dbi = Singleton::getInstance()->getConnection();
-       $req = $dbi -> query("SELECT worker.login, count(operation.login) as nombre_worker, role 
+       $req = $dbi -> query("SELECT worker.login as login, count(operation.login) as nbAssignedOperation, role 
                                             from worker left join operation on operation.login= worker.login 
+                                            where operation.Status = 'En cours'
                                             group by login, role");
-       $res = $req->fetchAll();
+       $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
        //règle métier + création d'un tableau vide(logins) qui permet de mettre les workers disponibles et correspondant aux regles metiers
        if(isset($res)){
            $logins=array();
            foreach($res as $worker){
-               if(($worker[2] == "Senior" and $worker[1]<3) or ($worker[2] == "Expert" and $worker[1]<5) or ($worker[2] == "Apprenti" and $worker[1]<1)){
-                    array_push($logins, $worker[0]);
+
+               if(($worker["role"] == "senior" and intval($worker["nbAssignedOperation"])<3)
+                   or ($worker["role"] == "expert" and intval($worker["nbAssignedOperation"])<5)
+                   or ($worker["role"] == "apprenti" and intval($worker["nbAssignedOperation"])<1)){
+                    array_push($logins, $worker["login"]);
                }
            }
            //On fait un random des indexs du tableau login pour permettre d'attribuer aléatoirement une opération
