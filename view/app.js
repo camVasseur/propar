@@ -204,6 +204,10 @@ function displayInterface(){
         document.getElementById("loginLink").style.visibility = "visible";
         document.getElementById("logoutLink").style.visibility = "hidden";
     }
+
+    setInProgressOperationDatatable();
+
+    setFinishedOperationDatatable();
 }
 
 function resetGlobalVariables(){

@@ -111,10 +111,10 @@ class OperationManager
         return $arr;
     }
 
-    public static function operationInProgressByIdWorker($login)
+    public static function inProgressOperationsByIdWorker($login)
     {
         $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi->prepare("select login, StartDate, EndDate, Description, Status,Type_Operation,name, surname 
+        $req = $dbi->prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
                                             from operation, operationtype, customer 
                                         where login = :log 
                                         and Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
@@ -123,7 +123,20 @@ class OperationManager
             'log'=>$login
         ));
         $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
-        var_dump($arr);
+    }
+
+    public static function finishedOperationsByIdWorker($login)
+    {
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi->prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
+                                            from operation, operationtype, customer 
+                                        where login = :log 
+                                        and Status = 'Finish' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
+                                        order by name ASC");
+        $req->execute(array(
+            'log'=>$login
+        ));
+        $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
     }
     /**Methode qui determine aléatoirement un worker disponible en fonction des règles métier
      * @return mixed|null
