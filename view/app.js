@@ -84,13 +84,53 @@ function getOperations(){
     })
 }
 function addWorker() {
+    let name = $('#workerName').val();
+    let surname = $('#workerSurname').val();
+    let role = $('#role').val();
+    $.ajax({
+        url: '../ctrl/adminController.action.php',
+        type: 'POST',
+        dataType: 'json', //text
+        data: {
+            role: role,
+            name: name,
+            surname: surname,
+            action:'addWorker'
+        },
+        error: function (response) {
 
-    $.post('../ctrl/adminController.action.php', $('#formWorker').serialize(), function (data) {
-        console.log(data);
-    }, "json").fail(function () {
-        console.log("error");
-    })
-}
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response) {
+            console.log(response);
+
+        },
+//     $.post('../ctrl/adminController.action.php', $('#formWorker').serialize(), function (data) {
+//         console.log(data);
+//     }, "json").fail(function () {
+//         console.log("error");
+   })
+ }
+
+// function addOperation() {
+//     let addOperation = $('#formAddOperation)
+//     $.ajax({
+//         url: '../ctrl/operationController.action.php',
+//         type: 'POST',
+//         dataType: 'json', //text
+//         data: {
+//             action: "addOperation"
+//         },
+//         error: function (response) {
+//             console.log('error');
+//             console.log(response);
+//         },
+//         success: function (response) {
+//             console.log(response);
+//
+//         }})
+// }
 
 function addOperation(){
 
@@ -239,42 +279,6 @@ $(document).ready(function() {
                 ordering: true
             });
         }})
-
-   /* $.ajax({
-        url: '../ctrl/operationController.action.php',
-        type: 'POST',
-        dataType: 'json', //text
-        data: {
-            action: "listFinish"
-        },
-        error: function (response) {
-            console.log('error');
-            console.log(response);
-        },
-        success: function (response, httpStatusCode) {
-            console.log(response);
-            data=response;
-            $('#DatatableFinishOperation').DataTable({
-                data: data,
-                columns: [
-                    { data: "login" },
-                    { data: "StartDate" },
-                    { data: "EndDate" },
-                    { data: "Description" },
-                    { data: "status" },
-                    { data: "Type_Operation" },
-                    { data: "name" },
-                    { data: "surname" }
-                ],
-                columnDefs: [
-                    { type: "html",  orderable: true, targets: [0, 3, 4 , 5] },
-                    { type: "date", targets: 1 }
-                ],
-                paging: false,
-                scrollY: 400,
-                ordering: true
-            });*/
-
 
 
     /*$('#myDatatableAMoi').DataTable({
