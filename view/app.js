@@ -111,13 +111,46 @@ function addWorker() {
 //         }})
 // }
 
-function addOperation(){
+function addOperation() {
 
-    $.post('../ctrl/operationController.action.php', $('#formAddOperation').serialize(),function( data ) {
-        console.log( data);
-    }, "json").fail(function() {
-        console.log( "error" );
+    $.post('../ctrl/operationController.action.php', $('#formAddOperation').serialize(), function (data) {
+        console.log(data);
+    }, "json").fail(function () {
+        console.log("error");
     })
+}
+
+
+function finishOperationById() {
+    let idOperation = $('#idOperation').val();
+
+
+    $.ajax({
+        url: '../ctrl/finishOperation.action.php',
+        type: 'POST',
+        dataType: 'json', //text
+        data: {
+            idOperation: "idOperation",
+        },
+        error: function (response) {
+
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response) {
+            console.log(response);
+
+        }
+
+
+    // $.post('../ctrl/finishOperation.action.php', $('#finishOperation').serialize(), function (data) {
+    //     console.log(data);
+    // }, "json").fail(function () {
+    //     console.log("error");
+     })
+}
+
+
     // var jqxhr = $.post( "example.php", function() {
     //     alert( "success" );
     // })
@@ -130,7 +163,7 @@ function addOperation(){
     //     .always(function() {
     //         alert( "finished" );
     //     });
-}
+
 
 function SetGlobalVariables() {
     if (isLogged){

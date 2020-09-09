@@ -663,16 +663,14 @@
                             </div>
                             <div class="modal-body">
                                 <section id="finishOp">
-                                    <label for="idOperation">L'opération numéro : </label>
-                                    <input type="text" id="idOperation" readonly></br>
-                                    <label for="identityCustomer">concernant le client : </label>
-                                    <input type="text" id="identityCustomer"readonly></br>
-                                    <label for="status">a pour statut : </label>
-                                    <input type="text"id="status" readonly>
+                                    <form action="" name="finishOperation" method="post">
+                                        <label for="idOperation">Opération a terminer :  </label>
+                                        <input type="text" id="idOperation" name="idOperation"></br>
+                                    </form>
                                 </section>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-info">Valider</button>
+                                <button type="button" class="btn btn-info" onclick="finishOperationById()">Valider</button>
                             </div>
                         </div>
                     </div>
