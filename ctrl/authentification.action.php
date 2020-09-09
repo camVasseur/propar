@@ -21,6 +21,7 @@ function login(){
     if ($worker != NULL){
 
         $_SESSION["user"] = $worker;
+
         http_response_code(200);
         echo json_encode($worker);
     }
@@ -28,6 +29,7 @@ function login(){
         http_response_code(400);
         echo json_encode($_POST);
     }
+
 }
 
 function logout(){

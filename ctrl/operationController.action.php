@@ -11,12 +11,16 @@ include_once "../modele/OperationManager.class.php";
 
 $action = $_POST['action'];
 
-if ($action == "list"){
+if ($action == "listInProgress"){
 
     $operations=OperationManager::getOperationInProgress();
     http_response_code(200);
     echo json_encode($operations);
 
+//}elseif ($action == "listFinish"){
+//    $operations=OperationManager::getFinishoperation();
+//    http_response_code(200);
+//    echo json_encode($operations);
 }
 else{
     //Création d'un opération

@@ -84,10 +84,13 @@ class OperationManager
     public static function getOperationInProgress(){
         //$login = $_SESSION["login"];
         $dbi = Singleton::getInstance()->getConnection();
-        $req =$dbi -> prepare("select StartDate, EndDate, Description,Type_Operation,name, surname 
+        $req =$dbi -> prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
                                         from operation, operationtype, customer 
-                                        where Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
-                                        order by name ASC");
+                                        where Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email order by name ASC");
+//        $req =$dbi -> prepare("select StartDate, EndDate, Description,Type_Operation,name, surname
+//                                        from operation, operationtype, customer
+//                                        where Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email
+//                                        order by name ASC");
         $req->execute(array());
         $arr = $req -> fetchAll();
         return $arr;
@@ -102,7 +105,7 @@ class OperationManager
         $req =$dbi -> prepare("select login, StartDate, EndDate, Description, Status,Type_Operation,name, surname 
                                         from operation, operationtype, customer 
                                         where Status = 'Finish' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
-                                        order by name ASC");
+                                        order by name");
         $req->execute(array());
         $arr = $req -> fetchAll();
         return $arr;

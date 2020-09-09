@@ -133,14 +133,22 @@ function displayInterface(){
     if(isLogged){
         document.getElementById("profileLink").style.visibility = "visible";
         document.getElementById("addWorkerLink").style.visibility = "hidden";
+        document.getElementById("calculCA").style.visibility = "hidden";
         document.getElementById("loginLink").style.visibility = "hidden";
+        document.getElementById("addOperationLink").style.visibility = "visible";
+        document.getElementById("finishOperationLink").style.visibility = "visible";
         document.getElementById("logoutLink").style.visibility = "visible";
+
         if (userRole == "Expert"){
             document.getElementById("addWorkerLink").style.visibility = "visible";
+            document.getElementById("calculCA").style.visibility = "visible";
         }
     }else {
         document.getElementById("profileLink").style.visibility = "hidden";
         document.getElementById("addWorkerLink").style.visibility = "hidden";
+        document.getElementById("addOperationLink").style.visibility = "hidden";
+        document.getElementById("finishOperationLink").style.visibility = "hidden";
+        document.getElementById("calculCA").style.visibility = "hidden";
         document.getElementById("loginLink").style.visibility = "visible";
         document.getElementById("logoutLink").style.visibility = "hidden";
     }
@@ -162,20 +170,37 @@ function resetGlobalVariables(){
 
 function getCa(){
 
-    $.get('../ctrl/adminController.action.php', function( data ) {
-        console.log( data);
-    }, "json").fail(function() {
-        console.log("error");
+    $.ajax({
+        url: '../ctrl/adminController.action.php',
+        type: 'POST',
+        dataType: 'json', //text
+        data: {
+
+            action: "getCa"
+        },
+        error: function (response) {
+
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response, httpStatusCode) {
+          alert(response);
+
+        }
+        /*
+              complete : function(response){
+                  alert("completed");
+              }*/
+    // $.get('../ctrl/adminController.action.php', function( data ) {
+    //
+    //     console.log( data);
+    //
+    //
+    // }, "json").fail(function() {
+    //     console.log("error");
+    // })
     })
 }
-// function login() {
-//
-//     $.post('../ctrl/authentification.action.php', $('#authentification').serialize(), function (data) {
-//         console.log(data);
-//     }, "json").fail(function () {
-//         console.log("error");
-//     })
-// }
 
 $(document).ready(function() {
 
@@ -184,7 +209,7 @@ $(document).ready(function() {
         type: 'POST',
         dataType: 'json', //text
         data: {
-            action: "list"
+            action: "listInProgress"
         },
         error: function (response) {
             console.log('error');
@@ -196,6 +221,8 @@ $(document).ready(function() {
             $('#myDatatableAMoi').DataTable({
                 data: data,
                 columns: [
+                    { data: "login" },
+                    { data: "Id_Operation" },
                     { data: "Description" },
                     { data: "EndDate" },
                     { data: "StartDate" },
@@ -212,6 +239,44 @@ $(document).ready(function() {
                 ordering: true
             });
         }})
+
+   /* $.ajax({
+        url: '../ctrl/operationController.action.php',
+        type: 'POST',
+        dataType: 'json', //text
+        data: {
+            action: "listFinish"
+        },
+        error: function (response) {
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response, httpStatusCode) {
+            console.log(response);
+            data=response;
+            $('#DatatableFinishOperation').DataTable({
+                data: data,
+                columns: [
+                    { data: "login" },
+                    { data: "StartDate" },
+                    { data: "EndDate" },
+                    { data: "Description" },
+                    { data: "status" },
+                    { data: "Type_Operation" },
+                    { data: "name" },
+                    { data: "surname" }
+                ],
+                columnDefs: [
+                    { type: "html",  orderable: true, targets: [0, 3, 4 , 5] },
+                    { type: "date", targets: 1 }
+                ],
+                paging: false,
+                scrollY: 400,
+                ordering: true
+            });*/
+
+
+
     /*$('#myDatatableAMoi').DataTable({
         "ajax": "../ctrl/operationController.action.php",
         "columns": [
