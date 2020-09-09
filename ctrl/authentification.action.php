@@ -1,6 +1,6 @@
 <?php
 session_start();
-include"../modele/AdminManager.class.php";
+include_once "../modele/AdminManager.class.php";
 
 $action = $_POST["action"];
 

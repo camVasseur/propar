@@ -254,10 +254,37 @@ function getCa(){
     })
 }
 
-$(document).ready(function() {
-
+function getLoggedUser(){
     $.ajax({
-        url: '../ctrl/operationController.action.php',
+        url: '../ctrl/getUser.action.php',
+        type: 'GET',
+        dataType: 'json', //text
+        // data: {
+        //     action: "listInProgress"
+        // },
+        error: function (response) {
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response, httpStatusCode) {
+            console.log(response.login);
+            if (response == undefined){
+                resetGlobalVariables();
+            }
+            else{
+                isLogged = true;
+                userLogin = response.login;
+                userRole = response.role;
+                userName = response.name;
+                userSurname = response.surname;
+                SetGlobalVariables();
+            }
+        }})
+}
+
+function setInProgressOperationDatatable(){
+    $.ajax({
+        url: '../ctrl/getOperations.action.php',
         type: 'POST',
         dataType: 'json', //text
         data: {
@@ -270,7 +297,7 @@ $(document).ready(function() {
         success: function (response, httpStatusCode) {
             console.log(response);
             data=response;
-            $('#myDatatableAMoi').DataTable({
+            $('#inProgressOperationTable').DataTable({
                 data: data,
                 columns: [
                     { data: "login", title: "login" },
@@ -287,19 +314,49 @@ $(document).ready(function() {
                 ordering: true
             });
         }})
+}
 
+function setFinishedOperationDatatable(){
+    $.ajax({
+        url: '../ctrl/getOperations.action.php',
+        type: 'POST',
+        dataType: 'json', //text
+        data: {
+            action: "listFinished"
+        },
+        error: function (response) {
+            console.log('error');
+            console.log(response);
+        },
+        success: function (response, httpStatusCode) {
+            console.log(response);
+            data=response;
+            $('#finishedOperationTable').DataTable({
+                data: data,
+                columns: [
+                    { data: "login", title: "login" },
+                    { data: "Id_Operation", title: "N° Operation" },
+                    { data: "Description", title: "Description"},
+                    { data: "StartDate", title: "Debut" },
+                    { data: "EndDate", title: "Fin" },
+                    { data: "Type_Operation", title: "Type" },
+                    { data: "name", title: "Name" },
+                    { data: "surname", title: "Surname" }
+                ],
+                paging: false,
+                scrollY: 400,
+                ordering: true
+            });
+        }})
+}
 
-    /*$('#myDatatableAMoi').DataTable({
-        "ajax": "../ctrl/operationController.action.php",
-        "columns": [
-            { "data": "name" },
-            { "data": "position" },
-            { "data": "office" },
-            { "data": "extn" },
-            { "data": "start_date" },
-            { "data": "salary" }
-        ]});*/
-    //getOperations();
+$(document).ready(function() {
+
+    getLoggedUser();
+
+    setInProgressOperationDatatable();
+
+    setFinishedOperationDatatable();
 
     resetGlobalVariables();
     displayInterface();
