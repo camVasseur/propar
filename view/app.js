@@ -84,32 +84,11 @@ function getOperations(){
     })
 }
 function addWorker() {
-    let name = $('#workerName').val();
-    let surname = $('#workerSurname').val();
-    let role = $('#role').val();
-    $.ajax({
-        url: '../ctrl/adminController.action.php',
-        type: 'POST',
-        dataType: 'json', //text
-        data: {
-            role: role,
-            name: name,
-            surname: surname,
-            action:'addWorker'
-        },
-        error: function (response) {
 
-            console.log('error');
-            console.log(response);
-        },
-        success: function (response) {
-            console.log(response);
-
-        },
-//     $.post('../ctrl/adminController.action.php', $('#formWorker').serialize(), function (data) {
-//         console.log(data);
-//     }, "json").fail(function () {
-//         console.log("error");
+    $.post('../ctrl/addWorker.action.php', $('#formWorker').serialize(), function (data) {
+        console.log(data);
+    }, "json").fail(function () {
+        console.log("error");
    })
  }
 

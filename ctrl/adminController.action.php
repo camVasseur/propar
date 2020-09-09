@@ -11,23 +11,19 @@ session_start();
 //$workerName = $_SESSION["user"]["name"];
 //$role = $_SESSION["user"]["role"];
 $action= $_POST["action"];
-if ($action == "getCa"){
+if ($action == "getCa") {
 
     getCa();
-}elseif($action == "addWorker") {
-    newWorker();
 }
 
-    function newWorker()
-    {
-        $workerSurname = $_POST["workerSurname"];
-        $workerName = $_POST["workerName"];
-        $role = $_POST["role"];
-        $worker = new Worker($workerSurname, $workerName, $role);
-        var_dump($workerSurname);
-        AdminManager::AddWorker($worker);
-        echo json_encode($worker);
-    }
+//        $workerSurname = $_POST["workerSurname"];
+//        $workerName = $_POST["workerName"];
+//        $role = $_POST["role"];
+//        $worker = new Worker($workerSurname, $workerName, $role);
+//        var_dump($workerSurname);
+//        AdminManager::AddWorker($worker);
+//        echo json_encode($worker);
+
 
 
 function getCa()
