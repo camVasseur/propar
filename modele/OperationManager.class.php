@@ -160,6 +160,8 @@ class OperationManager
                    or ($worker["role"] == "apprenti" and intval($worker["nbAssignedOperation"])<1)){
                     array_push($logins, $worker["login"]);
                }
+
+               exit(var_dump($logins));
            }
            //On fait un random des indexs du tableau login pour permettre d'attribuer aléatoirement une opération
            if(isset($logins)){

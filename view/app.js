@@ -170,7 +170,7 @@ function SetGlobalVariables() {
         CanFinishOperation = true;
         CanAddOperation = true;
 
-        if (userRole === "Expert"){
+        if (userRole === "expert"){
             isCaVisible=true;
             CanAddUser = true;
         }
@@ -191,7 +191,7 @@ function displayInterface(){
         document.getElementById("finishOperationLink").style.visibility = "visible";
         document.getElementById("logoutLink").style.visibility = "visible";
 
-        if (userRole == "Expert"){
+        if (userRole == "expert"){
             document.getElementById("addWorkerLink").style.visibility = "visible";
             document.getElementById("calculCA").style.visibility = "visible";
         }
