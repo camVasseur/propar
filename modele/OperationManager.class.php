@@ -133,7 +133,7 @@ class OperationManager
        $dbi = Singleton::getInstance()->getConnection();
        $req = $dbi -> query("SELECT worker.login as login, count(operation.login) as nbAssignedOperation, role 
                                             from worker left join operation on operation.login= worker.login 
-                                            where operation.Status = 'En cours'
+                                            where operation.Status = 'En cours' OR operation.Status IS NULL
                                             group by login, role");
        $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
