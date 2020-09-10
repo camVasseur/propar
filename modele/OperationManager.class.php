@@ -101,8 +101,9 @@ class OperationManager
      */
     public static function getFinishedOperation(){
         //$login = $_SESSION["login"];
+
         $dbi = Singleton::getInstance()->getConnection();
-        $req =$dbi -> prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
+              $req =$dbi -> prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
                                         from operation, operationtype, customer 
                                         where Status = 'Finish' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
                                         order by name");
@@ -114,19 +115,23 @@ class OperationManager
     public static function inProgressOperationsByIdWorker($login)
     {
         $dbi = Singleton::getInstance()->getConnection();
+        echo 1;
         $req = $dbi->prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
                                             from operation, operationtype, customer 
                                         where login = :log 
                                         and Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
                                         order by name ASC");
+        echo 3;
         $req->execute(array(
             'log'=>$login
         ));
         $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
+        return $arr;
     }
 
     public static function finishedOperationsByIdWorker($login)
     {
+       echo $login;
         $dbi = Singleton::getInstance()->getConnection();
         $req = $dbi->prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
                                             from operation, operationtype, customer 
@@ -137,6 +142,8 @@ class OperationManager
             'log'=>$login
         ));
         $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
+
+        return $arr;
     }
     /**Methode qui determine aléatoirement un worker disponible en fonction des règles métier
      * @return mixed|null

@@ -7,10 +7,12 @@ include_once "../modele/OperationManager.class.php";
 
 $action = $_POST['action'];
 $user = $_SESSION["user"];
+var_dump($user);
+die();
 if ($action == "listInProgress"){
 
     if ($user != NULL){
-        $operations=OperationManager::inProgressOperationsByIdWorker($user->login);
+        $operations=OperationManager::inProgressOperationsByIdWorker($user['login']);
         http_response_code(200);
         echo json_encode($operations);
     }
@@ -24,7 +26,7 @@ if ($action == "listInProgress"){
 if ($action == "listFinished"){
 
     if ($user != NULL){
-        $operations=OperationManager::finishedOperationsByIdWorker($user->login);
+        $operations=OperationManager::finishedOperationsByIdWorker($user['login']);
         http_response_code(200);
         echo json_encode($operations);
     }

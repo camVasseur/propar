@@ -20,10 +20,10 @@ function login(){
 
     if ($worker != NULL){
 
-        $_SESSION["user"] = $worker;
+        $_SESSION["user"] = $worker->login;
 
         http_response_code(200);
-        echo json_encode($worker);
+        echo json_encode($worker->login);
     }
     else{
         http_response_code(400);
