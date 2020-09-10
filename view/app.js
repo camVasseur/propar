@@ -31,17 +31,8 @@ function login(){
         },
         success: function (response, httpStatusCode) {
             console.log(response);
-            userRole = response.role;
-            userLogin = response.login;
-            userName = response.name;
-            userSurname = response.surname;
-            isLogged = true;
-            SetGlobalVariables();
+            document.location.reload(true);
         },
-  /*
-        complete : function(response){
-            alert("completed");
-        }*/
     })
 }
 
@@ -60,6 +51,7 @@ function logout() {
         success: function (response, httpStatusCode) {
             console.log(response);
             resetGlobalVariables();
+            document.location.reload(true);
         }})
 }
 
@@ -79,44 +71,23 @@ function getOperations(){
             console.log(response);
             console.log(status);
         },
-        /*
-              complete : function(response){
-                  alert("completed");
-              }*/
     })
 }
 function addWorker() {
 
     $.post('../ctrl/addWorker.action.php', $('#formWorker').serialize(), function (data) {
         console.log(data);
+        document.location.reload(true);
     }, "json").fail(function () {
         console.log("error");
    })
  }
 
-// function addOperation() {
-//     let addOperation = $('#formAddOperation)
-//     $.ajax({
-//         url: '../ctrl/operationController.action.php',
-//         type: 'POST',
-//         dataType: 'json', //text
-//         data: {
-//             action: "addOperation"
-//         },
-//         error: function (response) {
-//             console.log('error');
-//             console.log(response);
-//         },
-//         success: function (response) {
-//             console.log(response);
-//
-//         }})
-// }
-
 function addOperation() {
 
     $.post('../ctrl/addOperation.action.php', $('#formAddOperation').serialize(), function (data) {
         console.log(data);
+        document.location.reload(true);
     }, "json").fail(function () {
         console.log("error");
     })
@@ -141,32 +112,10 @@ function finishOperationById() {
         },
         success: function (response) {
             console.log(response);
-
+            document.location.reload(true);
         }
-
-
-    // $.post('../ctrl/finishOperation.action.php', $('#finishOperation').serialize(), function (data) {
-    //     console.log(data);
-    // }, "json").fail(function () {
-    //     console.log("error");
      })
 }
-
-
-    // var jqxhr = $.post( "example.php", function() {
-    //     alert( "success" );
-    // })
-    //     .done(function() {
-    //         alert( "second success" );
-    //     })
-    //     .fail(function() {
-    //         alert( "error" );
-    //     })
-    //     .always(function() {
-    //         alert( "finished" );
-    //     });
-
-
 function SetGlobalVariables() {
     if (isLogged){
         CanFinishOperation = true;
@@ -245,18 +194,6 @@ function getCa(){
           alert(response);
 
         }
-        /*
-              complete : function(response){
-                  alert("completed");
-              }*/
-    // $.get('../ctrl/adminController.action.php', function( data ) {
-    //
-    //     console.log( data);
-    //
-    //
-    // }, "json").fail(function() {
-    //     console.log("error");
-    // })
     })
 }
 
@@ -285,14 +222,12 @@ function getLoggedUser(){
         }})
 }
 
+
 function setInProgressOperationDatatable(){
-    $.ajax({
-        url: '../ctrl/getOperations.action.php',
+$.ajax({
+        url: '../ctrl/getInProgressOperations.action.php',
         type: 'POST',
         dataType: 'json', //text
-        data: {
-            action: "listInProgress"
-        },
         error: function (response) {
             console.log('error');
             console.log(response);
@@ -300,7 +235,7 @@ function setInProgressOperationDatatable(){
         success: function (response, httpStatusCode) {
             console.log(response);
             data=response;
-            $('#inProgressOperationTable').DataTable({
+            inProgressOperationDatatable = $('#inProgressOperationTable').DataTable({
                 data: data,
                 columns: [
                     { data: "login", title: "login" },
@@ -317,16 +252,15 @@ function setInProgressOperationDatatable(){
                 ordering: true
             });
         }})
+
 }
 
 function setFinishedOperationDatatable(){
+
     $.ajax({
-        url: '../ctrl/getOperations.action.php',
+        url: '../ctrl/getFinishedOperations.action.php',
         type: 'POST',
         dataType: 'json', //text
-        data: {
-            action: "listFinished"
-        },
         error: function (response) {
             console.log('error');
             console.log(response);
@@ -334,7 +268,7 @@ function setFinishedOperationDatatable(){
         success: function (response, httpStatusCode) {
             console.log(response);
             data=response;
-            $('#finishedOperationTable').DataTable({
+            finishedOperationDatatable = $('#finishedOperationTable').DataTable({
                 data: data,
                 columns: [
                     { data: "login", title: "login" },
@@ -351,6 +285,7 @@ function setFinishedOperationDatatable(){
                 ordering: true
             });
         }})
+
 }
 
 $(document).ready(function() {

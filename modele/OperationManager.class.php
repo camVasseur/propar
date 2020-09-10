@@ -92,8 +92,7 @@ class OperationManager
 //                                        where Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email
 //                                        order by name ASC");
         $req->execute(array());
-        $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
-        return $arr;
+        return $req -> fetchAll(PDO::FETCH_ASSOC);
     }
 
     /** fonction qui retourne un array des opérations qui sont finies par ordre alpha des clients
@@ -107,14 +106,13 @@ class OperationManager
                                         where Status = 'Finish' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
                                         order by name");
         $req->execute(array());
-        $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
-        return $arr;
+        return $req -> fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function operationInProgressByIdWorker($login)
     {
         $dbi = Singleton::getInstance()->getConnection();
-        $req = $dbi->prepare("select login, StartDate, EndDate, Description, Status,Type_Operation,name, surname 
+        $req = $dbi->prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
                                             from operation, operationtype, customer 
                                         where login = :log 
                                         and Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
@@ -122,9 +120,24 @@ class OperationManager
         $req->execute(array(
             'log'=>$login
         ));
-        $arr = $req -> fetchAll(PDO::FETCH_ASSOC);
-        var_dump($arr);
+        return $req -> fetchAll(PDO::FETCH_ASSOC);
+
     }
+
+    public static function finishedOperationsByIdWorker($login)
+    {
+        $dbi = Singleton::getInstance()->getConnection();
+        $req = $dbi->prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
+                                            from operation, operationtype, customer 
+                                        where login = :log 
+                                        and Status = 'Finish' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
+                                        order by name ASC");
+        $req->execute(array(
+            'log'=>$login
+        ));
+        return $req -> fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /**Methode qui determine aléatoirement un worker disponible en fonction des règles métier
      * @return mixed|null
      */
