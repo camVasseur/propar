@@ -8,6 +8,8 @@ var CanAddUser = false;
 var CanFinishOperation = false;
 var CanAddOperation = false;
 var data = undefined;
+var inProgressOperationDatatable = undefined;
+var finishedOperationDatatable = undefined;
 
 function login(){
     let login = $('#login').val();
@@ -191,7 +193,7 @@ function displayInterface(){
         document.getElementById("finishOperationLink").style.visibility = "visible";
         document.getElementById("logoutLink").style.visibility = "visible";
 
-        if (userRole == "Expert"){
+        if (userRole == "expert"){
             document.getElementById("addWorkerLink").style.visibility = "visible";
             document.getElementById("calculCA").style.visibility = "visible";
         }
@@ -204,6 +206,10 @@ function displayInterface(){
         document.getElementById("loginLink").style.visibility = "visible";
         document.getElementById("logoutLink").style.visibility = "hidden";
     }
+
+    setInProgressOperationDatatable();
+
+    setFinishedOperationDatatable();
 }
 
 function resetGlobalVariables(){
@@ -259,16 +265,13 @@ function getLoggedUser(){
         url: '../ctrl/getUser.action.php',
         type: 'GET',
         dataType: 'json', //text
-        // data: {
-        //     action: "listInProgress"
-        // },
         error: function (response) {
             console.log('error');
             console.log(response);
         },
         success: function (response, httpStatusCode) {
             console.log(response.login);
-            if (response == undefined){
+            if (response == "NoUserLogged"){
                 resetGlobalVariables();
             }
             else{
@@ -353,13 +356,6 @@ function setFinishedOperationDatatable(){
 $(document).ready(function() {
 
     getLoggedUser();
-
-    setInProgressOperationDatatable();
-
-    setFinishedOperationDatatable();
-
-    resetGlobalVariables();
-    displayInterface();
 
 })
 

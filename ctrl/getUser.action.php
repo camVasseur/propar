@@ -3,16 +3,11 @@ session_start();
 include_once "../modele/Worker.class.php";
 
 
-if(isset($_SESSION)){
+if(isset($_SESSION["user"])){
     $user = $_SESSION["user"];
-    if (isset($user)){
-        echo json_encode($user);
-    }
-    else{
-        echo null;
-    }
+    echo json_encode($user);
 }
 else{
-    echo null;
+    echo json_encode("NoUserLogged");
 }
 ?>

@@ -13,6 +13,7 @@ if ($action == "logout"){
 }
 
 
+
 function login(){
     $login = $_POST['login'];
     $password = $_POST['password'];
@@ -20,7 +21,10 @@ function login(){
 
     if ($worker != NULL){
 
-        $_SESSION["user"] = $worker;
+        $_SESSION["userLogin"] = $worker->login;
+        $_SESSION["userRole"] = $worker->role;
+        $_SESSION["userName"] = $worker->getName();
+        $_SESSION["userSurname"] = $worker->getSurname();
 
         http_response_code(200);
         echo json_encode($worker);
