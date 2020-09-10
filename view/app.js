@@ -8,6 +8,8 @@ var CanAddUser = false;
 var CanFinishOperation = false;
 var CanAddOperation = false;
 var data = undefined;
+var inProgressOperationDatatable = undefined;
+var finishedOperationDatatable = undefined;
 
 function login(){
     let login = $('#login').val();
@@ -61,28 +63,6 @@ function logout() {
         }})
 }
 
-function getOperations(){
-    $.ajax({
-        url: '../ctrl/operationController.action.php',
-        type: 'GET',
-        dataType: 'json', //text
-
-        error: function (response, status, titi) {
-            console.log(titi);
-            console.log('error');
-            console.log(response);
-        },
-        success: function (response, status) {
-            //let json = $.parseJSON(response);
-            console.log(response);
-            console.log(status);
-        },
-        /*
-              complete : function(response){
-                  alert("completed");
-              }*/
-    })
-}
 function addWorker() {
 
     $.post('../ctrl/addWorker.action.php', $('#formWorker').serialize(), function (data) {
@@ -264,9 +244,6 @@ function getLoggedUser(){
         url: '../ctrl/getUser.action.php',
         type: 'GET',
         dataType: 'json', //text
-        // data: {
-        //     action: "listInProgress"
-        // },
         error: function (response) {
             console.log('error');
             console.log(response);
@@ -288,158 +265,129 @@ function getLoggedUser(){
 }
 
 function setInProgressOperationDatatable(){
-    $.ajax({
-        url: '../ctrl/getOperations.action.php',
-        type: 'POST',
-        dataType: 'json', //text
-        data: {
-            action: "listInProgress"
 
-        },
-        error: function (response) {
-            console.log('error');
-            console.log(response);
-        },
-        success: function (response, httpStatusCode) {
-            console.log(response);
-            data=response;
-            $('#inProgressOperationTable').DataTable({
-                data: data,
-                columns: [
-                    { data: "login", title: "login" },
-                    { data: "Id_Operation", title: "N° Operation" },
-                    { data: "Description", title: "Description"},
-                    { data: "StartDate", title: "Debut" },
-                    { data: "EndDate", title: "Fin" },
-                    { data: "Type_Operation", title: "Type" },
-                    { data: "name", title: "Name" },
-                    { data: "surname", title: "Surname" }
-                ],
-                paging: false,
-                scrollY: 400,
-                ordering: true
-            });
-        }})
+    if(inProgressOperationDatatable === undefined){
+        inProgressOperationDatatable = $('#finishedOperationTable').DataTable({
+            ajax: "../ctrl/getInProgressOperations.action.php",
+            columns: [
+                { data: "login", title: "login" },
+                { data: "Id_Operation", title: "N° Operation" },
+                { data: "Description", title: "Description"},
+                { data: "StartDate", title: "Debut" },
+                { data: "EndDate", title: "Fin" },
+                { data: "Type_Operation", title: "Type" },
+                { data: "name", title: "Name" },
+                { data: "surname", title: "Surname" }
+            ],
+            paging: false,
+            scrollY: 400,
+            ordering: true
+        });
+    }
+    else{
+        inProgressOperationDatatable.ajax.reload();
+    }
+
+
+    // $.ajax({
+    //     url: '../ctrl/getOperations.action.php',
+    //     type: 'POST',
+    //     dataType: 'json', //text
+    //     data: {
+    //         action: "listInProgress"
+    //
+    //     },
+    //     error: function (response) {
+    //         console.log('error');
+    //         console.log(response);
+    //     },
+    //     success: function (response, httpStatusCode) {
+    //         console.log(response);
+    //         data=response;
+    //         $('#inProgressOperationTable').DataTable({
+    //             data: data,
+    //             columns: [
+    //                 { data: "login", title: "login" },
+    //                 { data: "Id_Operation", title: "N° Operation" },
+    //                 { data: "Description", title: "Description"},
+    //                 { data: "StartDate", title: "Debut" },
+    //                 { data: "EndDate", title: "Fin" },
+    //                 { data: "Type_Operation", title: "Type" },
+    //                 { data: "name", title: "Name" },
+    //                 { data: "surname", title: "Surname" }
+    //             ],
+    //             paging: false,
+    //             scrollY: 400,
+    //             ordering: true
+    //         });
+    //     }})
 }
 
 function setFinishedOperationDatatable(){
-    $.ajax({
-        url: '../ctrl/getOperations.action.php',
-        type: 'POST',
-        dataType: 'json', //text
-        data: {
-            action: "listFinished"
-        },
-        error: function (response) {
-            console.log('error');
-            console.log(response);
-        },
-        success: function (response, httpStatusCode) {
-            console.log(response);
-            data=response;
-            $('#finishedOperationTable').DataTable({
-                data: data,
-                columns: [
-                    { data: "login", title: "login" },
-                    { data: "Id_Operation", title: "N° Operation" },
-                    { data: "Description", title: "Description"},
-                    { data: "StartDate", title: "Debut" },
-                    { data: "EndDate", title: "Fin" },
-                    { data: "Type_Operation", title: "Type" },
-                    { data: "name", title: "Name" },
-                    { data: "surname", title: "Surname" }
-                ],
-                paging: false,
-                scrollY: 400,
-                ordering: true
-            });
-        }})
+    if(finishedOperationDatatable === undefined){
+        finishedOperationDatatable = $('#finishedOperationTable').DataTable({
+            ajax: "../ctrl/getFinishedOperations.action.php",
+            columns: [
+                { data: "login", title: "login" },
+                { data: "Id_Operation", title: "N° Operation" },
+                { data: "Description", title: "Description"},
+                { data: "StartDate", title: "Debut" },
+                { data: "EndDate", title: "Fin" },
+                { data: "Type_Operation", title: "Type" },
+                { data: "name", title: "Name" },
+                { data: "surname", title: "Surname" }
+            ],
+            paging: false,
+            scrollY: 400,
+            ordering: true
+        });
+    }
+    else{
+        finishedOperationDatatable.ajax.reload();
+    }
+
+
+    //
+    // $.ajax({
+    //     url: '../ctrl/getOperations.action.php',
+    //     type: 'POST',
+    //     dataType: 'json', //text
+    //     data: {
+    //         action: "listFinished"
+    //     },
+    //     error: function (response) {
+    //         console.log('error');
+    //         console.log(response);
+    //     },
+    //     success: function (response, httpStatusCode) {
+    //         console.log(response);
+    //         data=response;
+    //         $('#finishedOperationTable').DataTable({
+    //             data: data,
+    //             columns: [
+    //                 { data: "login", title: "login" },
+    //                 { data: "Id_Operation", title: "N° Operation" },
+    //                 { data: "Description", title: "Description"},
+    //                 { data: "StartDate", title: "Debut" },
+    //                 { data: "EndDate", title: "Fin" },
+    //                 { data: "Type_Operation", title: "Type" },
+    //                 { data: "name", title: "Name" },
+    //                 { data: "surname", title: "Surname" }
+    //             ],
+    //             paging: false,
+    //             scrollY: 400,
+    //             ordering: true
+    //         });
+    //     }})
 }
 
-function setFinishedOperationDatatableById(){
 
-    $.ajax({
-        url: '../ctrl/getOperations.action.php',
-        type: 'POST',
-        dataType: 'json', //text
-        data: {
-            action: "listFinished",
-            login: $('#login').val(),
-        },
-        error: function (response) {
-            console.log('error');
-            console.log(response);
-        },
-        success: function (response, httpStatusCode) {
-            console.log(response);
-            data=response;
-            $('#finishedOperationTable').DataTable({
-                data: data,
-                columns: [
-                    { data: "login", title: "login" },
-                    { data: "Id_Operation", title: "N° Operation" },
-                    { data: "Description", title: "Description"},
-                    { data: "StartDate", title: "Debut" },
-                    { data: "EndDate", title: "Fin" },
-                    { data: "Type_Operation", title: "Type" },
-                    { data: "name", title: "Name" },
-                    { data: "surname", title: "Surname" }
-                ],
-                paging: false,
-                scrollY: 400,
-                ordering: true
-            });
-        }})
-}
 
-function setInProgressOperationDatatableById(){
-
-    $.ajax({
-        url: '../ctrl/getOperations.action.php',
-        type: 'POST',
-        dataType: 'json', //text
-        data: {
-            action: "listInProgress",
-            login: $('#login').val(),
-        },
-        error: function (response) {
-            console.log('error');
-            console.log(response);
-        },
-        success: function (response, httpStatusCode) {
-            console.log(response);
-            data=response;
-            $('#finishedOperationTable').DataTable({
-                data: data,
-                columns: [
-                    { data: "login", title: "login" },
-                    { data: "Id_Operation", title: "N° Operation" },
-                    { data: "Description", title: "Description"},
-                    { data: "StartDate", title: "Debut" },
-                    { data: "EndDate", title: "Fin" },
-                    { data: "Type_Operation", title: "Type" },
-                    { data: "name", title: "Name" },
-                    { data: "surname", title: "Surname" }
-                ],
-                paging: false,
-                scrollY: 400,
-                ordering: true
-            });
-        }})
-}
 
 $(document).ready(function() {
 
     getLoggedUser();
 
-    setFinishedOperationDatatableById();
-
-    setInProgressOperationDatatable();
-
-    setFinishedOperationDatatable();
-
-    resetGlobalVariables();
-    displayInterface();
 
 })
 

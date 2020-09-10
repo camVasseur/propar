@@ -7,8 +7,8 @@ include_once "../modele/OperationManager.class.php";
 
 $action = $_POST['action'];
 $user = $_SESSION["user"];
-var_dump($user);
-die();
+
+
 if ($action == "listInProgress"){
 
     if ($user != NULL){

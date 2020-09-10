@@ -115,13 +115,13 @@ class OperationManager
     public static function inProgressOperationsByIdWorker($login)
     {
         $dbi = Singleton::getInstance()->getConnection();
-        echo 1;
+
         $req = $dbi->prepare("select login, Id_Operation, StartDate, EndDate, Description,Type_Operation,name, surname 
                                             from operation, operationtype, customer 
                                         where login = :log 
                                         and Status = 'En cours' and operationtype.Id_Operation_Type=operation.id_Operation_Type and operation.Email=customer.Email 
                                         order by name ASC");
-        echo 3;
+
         $req->execute(array(
             'log'=>$login
         ));
